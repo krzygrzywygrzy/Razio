@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mental_health/components/button.dart';
 import 'package:mental_health/components/input_field.dart';
+import 'package:mental_health/models/painter.dart';
 
 class LogInPage extends StatefulWidget {
   LogInPage({Key key}) : super(key: key);
@@ -16,6 +17,7 @@ class _LogInPageState extends State<LogInPage> {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
+          Container(),
           Positioned(
             top: 80,
             left: 0,

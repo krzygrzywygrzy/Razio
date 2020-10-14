@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mental_health/models/painter.dart';
 
 class Dashbord extends StatefulWidget {
   @override
@@ -11,15 +12,11 @@ class _DashbordState extends State<Dashbord> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          children: [
-            Text(
-              "Welcome back nibba",
-              style: TextStyle(
-                fontSize: 60,
-              ),
-            ),
-          ],
+        child: CustomPaint(
+          painter: MyPainter(),
+          child: Container(
+            height: 500,
+          ),
         ),
       ),
     );
