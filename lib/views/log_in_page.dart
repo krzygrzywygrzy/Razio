@@ -1,7 +1,8 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:mental_health/components/button.dart';
 import 'package:mental_health/components/input_field.dart';
-import 'package:mental_health/models/painter.dart';
+import 'package:mental_health/services/log_in.dart';
 
 class LogInPage extends StatefulWidget {
   LogInPage({Key key}) : super(key: key);
@@ -11,13 +12,31 @@ class LogInPage extends StatefulWidget {
 }
 
 class _LogInPageState extends State<LogInPage> {
+  String email = "", password = "";
+
+  Future logIn() async {
+    if (password != "" && EmailValidator.validate(email) == true) {
+      LogIn logIn = LogIn();
+      String data = await logIn.logIn(email, password);
+      Navigator.pushNamed(context, '/dashbord');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          Container(),
+          Positioned(
+              top: 0,
+              left: 0,
+              child: Container(
+                child: Image.asset(
+                  "lib/assets/top.png",
+                  height: MediaQuery.of(context).size.height * 0.30,
+                ),
+              )),
           Positioned(
             top: 80,
             left: 0,
@@ -47,12 +66,19 @@ class _LogInPageState extends State<LogInPage> {
                       height: 20,
                     ),
                     InputField(
+                      type: TextInputType.emailAddress,
                       obscure: false,
-                      hint: "login",
+                      hint: "email",
+                      onChanged: (value) {
+                        email = value;
+                      },
                     ),
                     InputField(
                       obscure: true,
                       hint: "hasło",
+                      onChanged: (value) {
+                        password = value;
+                      },
                     ),
                     //
                     //Zapomniałeś hasła?
@@ -87,7 +113,7 @@ class _LogInPageState extends State<LogInPage> {
                     Button(
                       label: "Zaloguj",
                       toDo: () {
-                        Navigator.pushNamed(context, '/dashbord');
+                        logIn();
                       },
                     ),
                     SizedBox(

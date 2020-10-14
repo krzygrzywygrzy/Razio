@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mental_health/components/button.dart';
 import 'package:mental_health/components/input_field.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:mental_health/services/register.dart';
+import 'package:mental_health/const.dart';
+import 'package:mental_health/services/updatePersonalData.dart';
 
 class RegisterPage extends StatefulWidget {
   RegisterPage({Key key}) : super(key: key);
@@ -10,12 +14,44 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  String name = "", surname = "", email = "", password = "", role;
+  int radioValue = 1;
+
+  Future register() async {
+    if (radioValue == 0)
+      role = USER_ROLE;
+    else
+      role = PSY_ROLE;
+
+    if (name != "" &&
+        surname != "" &&
+        password != "" &&
+        EmailValidator.validate(email) == true) {
+      Register reg = Register();
+      String response = await reg.register(email, password, role);
+      if (response == "200") {
+        UpdatePersonalData user = UpdatePersonalData();
+        String n = await user.updatePersonalData(name, surname);
+      }
+      Navigator.pushNamed(context, '/dashbord');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
+          Positioned(
+              top: 0,
+              left: 0,
+              child: Container(
+                child: Image.asset(
+                  "lib/assets/top.png",
+                  height: MediaQuery.of(context).size.height * 0.3,
+                ),
+              )),
           Align(
             alignment: Alignment.topCenter,
             child: Container(
@@ -46,38 +82,76 @@ class _RegisterPageState extends State<RegisterPage> {
                     ],
                   ),
                   SizedBox(
-                    height: 50,
+                    height: 80,
                   ),
                   InputField(
                     obscure: false,
                     hint: "imię",
+                    onChanged: (value) {
+                      name = value;
+                    },
                   ),
                   InputField(
                     obscure: false,
                     hint: "nazwisko",
-                  ),
-                  InputField(
-                    obscure: false,
-                    hint: "login",
+                    onChanged: (value) {
+                      surname = value;
+                    },
                   ),
                   InputField(
                     obscure: false,
                     hint: "email",
+                    onChanged: (value) {
+                      email = value;
+                    },
                   ),
                   InputField(
                     obscure: true,
                     hint: "hasło",
+                    onChanged: (value) {
+                      password = value;
+                    },
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "Użytkownik",
+                        style: TextStyle(color: Colors.black54, fontSize: 15),
+                      ),
+                      Radio(
+                          activeColor: Theme.of(context).primaryColor,
+                          value: 0,
+                          groupValue: radioValue,
+                          onChanged: (value) {
+                            setState(() {
+                              radioValue = value;
+                            });
+                          }),
+                      Text(
+                        "Psycholog",
+                        style: TextStyle(color: Colors.black54, fontSize: 15),
+                      ),
+                      Radio(
+                          activeColor: Theme.of(context).primaryColor,
+                          value: 1,
+                          groupValue: radioValue,
+                          onChanged: (value) {
+                            setState(() {
+                              radioValue = value;
+                            });
+                          }),
+                    ],
                   ),
                   SizedBox(
                     height: 32,
                   ),
                   Container(
-                    color: Colors.blue,
-                    width: MediaQuery.of(context).size.width * 0.6,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.1),
                     child: Button(
                       label: "Zarejestruj",
                       toDo: () {
-                        Navigator.pushNamed(context, '/dashbord');
+                        register();
                       },
                     ),
                   ),

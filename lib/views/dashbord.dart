@@ -11,14 +11,7 @@ class _DashbordState extends State<Dashbord> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: CustomPaint(
-          painter: MyPainter(),
-          child: Container(
-            height: 500,
-          ),
-        ),
-      ),
+      body: Container(),
     );
   }
 }

@@ -13,10 +13,13 @@ class LogIn {
           .post(
         Uri.encodeFull("$URL" + "$api"),
         body: requestBody,
+        headers: HEADERS,
       )
           .then((var response) {
         if (response.statusCode == 200) {
           data = response.body;
+        } else {
+          data = response.statusCode.toString();
         }
       });
     } catch (e) {
