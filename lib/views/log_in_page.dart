@@ -1,7 +1,10 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mental_health/components/button.dart';
 import 'package:mental_health/components/input_field.dart';
+import 'package:mental_health/models/primaryData.dart';
+import 'package:mental_health/redux/actions.dart';
 import 'package:mental_health/services/log_in.dart';
 
 class LogInPage extends StatefulWidget {
@@ -16,9 +19,16 @@ class _LogInPageState extends State<LogInPage> {
 
   Future logIn() async {
     if (password != "" && EmailValidator.validate(email) == true) {
-      LogIn logIn = LogIn();
-      String data = await logIn.logIn(email, password);
-      Navigator.pushNamed(context, '/dashbord');
+      try {
+        // get data from server
+        PrimaryData pd = await LogIn.logIn(email, password);
+
+        //add to store
+        StoreProvider.of<PrimaryData>(context).dispatch(LogInState(pd));
+        Navigator.pushNamed(context, '/dashboard');
+      } catch (e) {
+        // print("Error:" + e);
+      }
     }
   }
 

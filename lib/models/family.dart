@@ -1,3 +1,5 @@
+import 'package:mental_health/models/calendarNote.dart';
+
 class Family {
   String familyId,
       familyName,
@@ -6,9 +8,10 @@ class Family {
       usrId,
       userNames,
       invitationCode;
+  List<CalendarNote> calendarNotes;
 
   Family(this.familyId, this.familyName, this.psyId, this.psychologistNames,
-      this.usrId, this.userNames, this.invitationCode);
+      this.usrId, this.userNames, this.invitationCode, this.calendarNotes);
 
   Family.fromJson(Map<String, dynamic> json)
       : familyId = json['familyId'],

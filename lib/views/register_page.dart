@@ -4,7 +4,6 @@ import 'package:mental_health/components/input_field.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:mental_health/services/register.dart';
 import 'package:mental_health/const.dart';
-import 'package:mental_health/services/updatePersonalData.dart';
 
 class RegisterPage extends StatefulWidget {
   RegisterPage({Key key}) : super(key: key);
@@ -27,13 +26,10 @@ class _RegisterPageState extends State<RegisterPage> {
         surname != "" &&
         password != "" &&
         EmailValidator.validate(email) == true) {
-      Register reg = Register();
-      String response = await reg.register(email, password, role);
+      String response = await Register.register(email, password, role);
       if (response == "200") {
-        UpdatePersonalData user = UpdatePersonalData();
-        String n = await user.updatePersonalData(name, surname);
+        Navigator.pushNamed(context, '/dashbord');
       }
-      Navigator.pushNamed(context, '/dashbord');
     }
   }
 
@@ -84,20 +80,20 @@ class _RegisterPageState extends State<RegisterPage> {
                   SizedBox(
                     height: 80,
                   ),
-                  InputField(
-                    obscure: false,
-                    hint: "imię",
-                    onChanged: (value) {
-                      name = value;
-                    },
-                  ),
-                  InputField(
-                    obscure: false,
-                    hint: "nazwisko",
-                    onChanged: (value) {
-                      surname = value;
-                    },
-                  ),
+                  // InputField(
+                  //   obscure: false,
+                  //   hint: "imię",
+                  //   onChanged: (value) {
+                  //     name = value;
+                  //   },
+                  // ),
+                  // InputField(
+                  //   obscure: false,
+                  //   hint: "nazwisko",
+                  //   onChanged: (value) {
+                  //     surname = value;
+                  //   },
+                  // ),
                   InputField(
                     obscure: false,
                     hint: "email",

@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:mental_health/const.dart';
 
 class Register {
-  Future<String> register(var email, var password, var role) async {
+  static Future<String> register(var email, var password, var role) async {
     String data = '';
     var api = '/api/User/register';
     var requestBody =
