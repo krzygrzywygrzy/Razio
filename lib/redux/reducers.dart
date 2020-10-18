@@ -6,5 +6,8 @@ PrimaryData reducer(PrimaryData prevState, dynamic action) {
   if (action is LogInState) {
     newState = action.payload;
   }
+  if (action is AddFamily) {
+    newState.families.add(action.payload);
+  }
   return newState;
 }

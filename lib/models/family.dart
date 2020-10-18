@@ -1,4 +1,5 @@
 import 'package:mental_health/models/calendarNote.dart';
+import 'package:mental_health/models/visits.dart';
 
 class Family {
   String familyId,
@@ -9,6 +10,7 @@ class Family {
       userNames,
       invitationCode;
   List<CalendarNote> calendarNotes;
+  List<Visit> visits;
 
   Family(this.familyId, this.familyName, this.psyId, this.psychologistNames,
       this.usrId, this.userNames, this.invitationCode, this.calendarNotes);

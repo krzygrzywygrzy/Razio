@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mental_health/components/button.dart';
 import 'package:mental_health/components/input_field.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:mental_health/models/primaryData.dart';
+import 'package:mental_health/redux/actions.dart';
+import 'package:mental_health/services/log_in.dart';
 import 'package:mental_health/services/register.dart';
 import 'package:mental_health/const.dart';
 
@@ -26,11 +30,35 @@ class _RegisterPageState extends State<RegisterPage> {
         surname != "" &&
         password != "" &&
         EmailValidator.validate(email) == true) {
-      String response = await Register.register(email, password, role);
-      if (response == "200") {
-        Navigator.pushNamed(context, '/dashbord');
+      try {
+        String response =
+            await Register.register(email, password, name, surname, role);
+        if (response == "200") {
+          PrimaryData pd = await LogIn.logIn(email, password);
+          //add to store
+          StoreProvider.of<PrimaryData>(context).dispatch(LogInState(pd));
+          Navigator.pushNamed(context, "/dashboard");
+        } else if (response == "500") {
+          print(response);
+          error("Coś poszło nie tak");
+        } else {
+          error("Użytkownik o takim adresie e-mail istnieje!");
+          print(response);
+        }
+      } catch (e) {
+        print(e);
       }
     }
+  }
+
+  error(String message) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Align(alignment: Alignment.center, child: Text("$message")),
+          );
+        });
   }
 
   @override
@@ -80,20 +108,20 @@ class _RegisterPageState extends State<RegisterPage> {
                   SizedBox(
                     height: 80,
                   ),
-                  // InputField(
-                  //   obscure: false,
-                  //   hint: "imię",
-                  //   onChanged: (value) {
-                  //     name = value;
-                  //   },
-                  // ),
-                  // InputField(
-                  //   obscure: false,
-                  //   hint: "nazwisko",
-                  //   onChanged: (value) {
-                  //     surname = value;
-                  //   },
-                  // ),
+                  InputField(
+                    obscure: false,
+                    hint: "imię",
+                    onChanged: (value) {
+                      name = value;
+                    },
+                  ),
+                  InputField(
+                    obscure: false,
+                    hint: "nazwisko",
+                    onChanged: (value) {
+                      surname = value;
+                    },
+                  ),
                   InputField(
                     obscure: false,
                     hint: "email",

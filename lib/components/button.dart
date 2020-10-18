@@ -19,7 +19,7 @@ class Button extends StatelessWidget {
               end: Alignment.bottomCenter,
               colors: [
                 // Color(0xffff9ea4),
-                //  Color(0xfff44f78),
+                // Color(0xfff44f78),
                 Color(0xffD93657),
                 Color(0xffC61F40),
               ],

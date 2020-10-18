@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mental_health/models/primaryData.dart';
+import 'package:mental_health/models/userInfo.dart';
 import 'package:mental_health/redux/reducers.dart';
 import 'package:mental_health/views/dashbord.dart';
 import 'package:mental_health/views/log_in_page.dart';
@@ -8,9 +9,15 @@ import 'package:mental_health/views/register_page.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
+final store = new Store<PrimaryData>(reducer,
+    initialState: PrimaryData(
+      token: "",
+      userInfo:
+          UserInfo(id: "", firstName: "", surname: "", email: "", role: "USR"),
+      privateNotes: [],
+      families: [],
+    ));
 void main() {
-  final store = new Store<PrimaryData>(reducer, initialState: PrimaryData());
-
   runApp(MyApp(
     store: store,
   ));

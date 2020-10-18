@@ -3,10 +3,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:mental_health/const.dart';
 import 'package:mental_health/models/calendarNote.dart';
+import 'package:mental_health/models/date.dart';
 import 'package:mental_health/models/family.dart';
 import 'package:mental_health/models/primaryData.dart';
 import 'package:mental_health/models/privateNote.dart';
 import 'package:mental_health/models/userInfo.dart';
+import 'package:mental_health/models/visits.dart';
 
 class LogIn {
   static Future<dynamic> logIn(var email, var password) async {
@@ -47,9 +49,19 @@ class LogIn {
                 j++) {
               cn.add(CalendarNote.fromJson(
                   json["families"][i]["calendarNotes"][j]));
+              Date date =
+                  Date.fromJson(json["families"][i]["calendarNotes"]["date"]);
+              cn[i].date = date;
+            }
+            List<Visit> vs = [];
+            for (int k = 0; k <= json["families"][i]["visits"].length; k++) {
+              vs.add(Visit.fromJson(json["families"][i]["visits"][k]));
+              Date date = Date.fromJson(json["families"][i]["visits"]["date"]);
+              vs[i].date = date;
             }
             Family fam = Family.fromJson(json["families"][i]);
             fam.calendarNotes = cn;
+            fam.visits = vs;
             f.add(fam);
           }
           primaryData.families = f;

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mental_health/components/calendar_card.dart';
 import 'package:mental_health/components/colored_card.dart';
+import 'package:mental_health/components/families_list.dart';
+import 'package:mental_health/components/family_card.dart';
 import 'package:mental_health/components/icon_card.dart';
+import 'package:mental_health/const.dart';
 import 'package:mental_health/models/primaryData.dart';
 
 class Dashbord extends StatefulWidget {
@@ -56,34 +59,13 @@ class _DashbordState extends State<Dashbord> {
                   Navigator.pushNamed(context, "/privateNotes");
                 },
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Kalendarz",
-                    style: TextStyle(
-                      fontSize: 30,
-                    ),
-                  ),
-                ),
+              FamiliesList(),
+              FamilyCard(
+                colors: kFamButtonsColors[0],
               ),
-              Container(
-                height: 240,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    CalendarCard(),
-                    CalendarCard(),
-                    CalendarCard(),
-                  ],
-                ),
+              FamilyCard(
+                colors: kFamButtonsColors[1],
               ),
-              SizedBox(
-                height: 14,
-              ),
-              IconCard(),
             ],
           ),
         ),
