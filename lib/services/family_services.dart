@@ -1,16 +1,21 @@
+import 'dart:io';
+
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:mental_health/const.dart';
 import 'package:mental_health/main.dart';
 
-class Family {
+class FamilyServices {
   static Future add(var name) async {
     var token = store.state.token;
 
     var api = '/api/Family/create';
     var requestBody = jsonEncode({"familyName": '$name'});
-    var headers = {"Authentication": 'Bearer $token'};
+    var headers = {
+      "Authentication": 'Bearer $token',
+      'Content-Type': 'application/json'
+    };
 
     try {
       http

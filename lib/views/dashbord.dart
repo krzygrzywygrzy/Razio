@@ -3,9 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mental_health/components/calendar_card.dart';
 import 'package:mental_health/components/colored_card.dart';
 import 'package:mental_health/components/families_list.dart';
-import 'package:mental_health/components/family_card.dart';
-import 'package:mental_health/components/icon_card.dart';
-import 'package:mental_health/const.dart';
+import 'package:mental_health/main.dart';
 import 'package:mental_health/models/primaryData.dart';
 
 class Dashbord extends StatefulWidget {
@@ -59,13 +57,16 @@ class _DashbordState extends State<Dashbord> {
                   Navigator.pushNamed(context, "/privateNotes");
                 },
               ),
-              FamiliesList(),
-              FamilyCard(
-                colors: kFamButtonsColors[0],
-              ),
-              FamilyCard(
-                colors: kFamButtonsColors[1],
-              ),
+              //FamiliesList(),
+              StoreConnector<PrimaryData, PrimaryData>(
+                converter: (store) => store.state,
+                builder: (context, state) {
+                  if (store.state.userInfo.role == "PSY") {
+                    return FamiliesList();
+                  } else
+                    return Container();
+                },
+              )
             ],
           ),
         ),

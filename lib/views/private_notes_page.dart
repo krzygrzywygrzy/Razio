@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mental_health/components/ovalButton.dart';
+import 'package:mental_health/const.dart';
 
 class PrivateNotesPage extends StatefulWidget {
   PrivateNotesPage({Key key}) : super(key: key);
@@ -14,6 +16,14 @@ class _PrivateNotesPageState extends State<PrivateNotesPage> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Stack(
+          children: [],
+        ),
+      ),
+      /////// floating action button
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             GestureDetector(
               onTap: () {
@@ -42,35 +52,14 @@ class _PrivateNotesPageState extends State<PrivateNotesPage> {
                 ),
               ),
             ),
-          ],
-        ),
-      ),
-      /////// floating action button
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Container(
-          height: 60,
-          width: 60,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color(0xffD93657),
-                Color(0xffC61F40),
-              ],
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Color(0xffD93657),
-                spreadRadius: 0.2,
-                blurRadius: 5,
+            OvalButton(
+              color: kFamButtonsColors[0],
+              icon: Icon(
+                Icons.add,
+                color: Colors.white,
               ),
-            ],
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 
 class FamilyCard extends StatelessWidget {
-  FamilyCard({this.colors});
-
+  FamilyCard({this.colors, this.name, this.appointment, this.onTap});
+  final String name;
   final List<Color> colors;
+  final String appointment;
+  final Function onTap;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
       child: GestureDetector(
+        onTap: onTap,
         child: Container(
           child: Row(
             children: [
@@ -38,7 +41,7 @@ class FamilyCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Jan Bednarz",
+                            "$name",
                             style: TextStyle(
                               color: Colors.white,
                               letterSpacing: 1,
@@ -53,7 +56,7 @@ class FamilyCard extends StatelessWidget {
                                 size: 20,
                               ),
                               Text(
-                                " - 19.10.2020",
+                                " - $appointment",
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),

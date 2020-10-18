@@ -7,6 +7,7 @@ class Register {
   static Future<String> register(
       var email, var password, var firstName, var surname, var role) async {
     String data = '';
+    print("działa");
     var api = '/api/User/register';
     var requestBody = jsonEncode({
       "email": '$email',

@@ -9,6 +9,8 @@ import 'package:mental_health/views/register_page.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
+//kuba_zalek88@onet.pl
+
 final store = new Store<PrimaryData>(reducer,
     initialState: PrimaryData(
       token: "",

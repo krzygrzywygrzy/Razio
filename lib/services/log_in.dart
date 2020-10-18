@@ -43,23 +43,31 @@ class LogIn {
           List<Family> f = [];
 
           for (int i = 0; i <= json["families"].length - 1; i++) {
-            List<CalendarNote> cn = [];
-            for (int j = 0;
-                j <= json["families"][i]["calendarNotes"].length - 1;
-                j++) {
-              cn.add(CalendarNote.fromJson(
-                  json["families"][i]["calendarNotes"][j]));
-              Date date =
-                  Date.fromJson(json["families"][i]["calendarNotes"]["date"]);
-              cn[i].date = date;
-            }
-            List<Visit> vs = [];
-            for (int k = 0; k <= json["families"][i]["visits"].length; k++) {
-              vs.add(Visit.fromJson(json["families"][i]["visits"][k]));
-              Date date = Date.fromJson(json["families"][i]["visits"]["date"]);
-              vs[i].date = date;
-            }
             Family fam = Family.fromJson(json["families"][i]);
+
+            List<CalendarNote> cn = [];
+            if (json["families"][i]["calendarNotes"].length != 0) {
+              for (int j = 0;
+                  j <= json["families"][i]["calendarNotes"].length - 1;
+                  j++) {
+                cn.add(CalendarNote.fromJson(
+                    json["families"][i]["calendarNotes"][j]));
+                Date date =
+                    Date.fromJson(json["families"][i]["calendarNotes"]["date"]);
+                cn[i].date = date;
+              }
+            }
+
+            List<Visit> vs = [];
+            if (json["families"][i]["visits"].length != 0) {
+              for (int k = 0; k <= json["families"][i]["visits"].length; k++) {
+                vs.add(Visit.fromJson(json["families"][i]["visits"][k]));
+                Date date =
+                    Date.fromJson(json["families"][i]["visits"]["date"]);
+                vs[i].date = date;
+              }
+            }
+
             fam.calendarNotes = cn;
             fam.visits = vs;
             f.add(fam);
