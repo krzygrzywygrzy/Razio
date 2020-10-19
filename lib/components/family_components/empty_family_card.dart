@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mental_health/components/colored_card.dart';
+import 'package:mental_health/components/cards/colored_card.dart';
 
 class EmptyFamilyLayout extends StatelessWidget {
   EmptyFamilyLayout({this.code});

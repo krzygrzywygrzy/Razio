@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:mental_health/components/button.dart';
-import 'package:mental_health/components/input_field.dart';
+import 'package:mental_health/components/interaction_components/button.dart';
+import 'package:mental_health/components/interaction_components/input_field.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:mental_health/models/primaryData.dart';
 import 'package:mental_health/redux/actions.dart';

@@ -1,16 +1,13 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:mental_health/components/bottom_sheet.dart';
-import 'package:mental_health/components/colored_card.dart';
-import 'package:mental_health/components/empty_family_card.dart';
-import 'package:mental_health/components/family_card.dart';
+import 'package:mental_health/components/interaction_components/bottom_sheet.dart';
+import 'package:mental_health/components/cards/colored_card.dart';
+import 'package:mental_health/components/family_components/empty_family_card.dart';
+import 'package:mental_health/components/family_components/family_card.dart';
 import 'package:mental_health/const.dart';
 import 'package:mental_health/models/date.dart';
 import 'package:mental_health/models/primaryData.dart';
 import 'package:mental_health/models/visits.dart';
-import 'package:mental_health/main.dart';
 
 class FamiliesList extends StatefulWidget {
   FamiliesList({Key key}) : super(key: key);
@@ -21,6 +18,7 @@ class FamiliesList extends StatefulWidget {
 
 class _FamiliesListState extends State<FamiliesList> {
   String appointmentTime(List<Visit> visits) {
+    //TODO: optimalization
     String data = "";
     if (visits.length == 0) {
       data = "brak zaplanowanych wizyt";

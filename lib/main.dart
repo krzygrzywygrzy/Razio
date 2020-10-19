@@ -19,6 +19,7 @@ final store = new Store<PrimaryData>(reducer,
       privateNotes: [],
       families: [],
     ));
+
 void main() {
   runApp(MyApp(
     store: store,
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
         title: 'Razio',
         theme: ThemeData(
           textTheme: TextTheme(
-            headline: TextStyle(
+            headline1: TextStyle(
                 color: Colors.black, fontSize: 30, fontWeight: FontWeight.w300),
           ),
           primaryColor: Color(0xffD93657),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:mental_health/components/calendar_card.dart';
-import 'package:mental_health/components/colored_card.dart';
-import 'package:mental_health/components/families_list.dart';
+import 'package:mental_health/components/cards/colored_card.dart';
+import 'package:mental_health/components/family_components/families_list.dart';
+import 'package:mental_health/components/user_dashboard.dart';
 import 'package:mental_health/main.dart';
 import 'package:mental_health/models/primaryData.dart';
 
@@ -113,7 +113,7 @@ class _DashbordState extends State<Dashbord> {
                   if (store.state.userInfo.role == "PSY") {
                     return FamiliesList();
                   } else
-                    return Container();
+                    return UserDashboard();
                 },
               )
             ],

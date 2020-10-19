@@ -16,3 +16,28 @@ const List<List<Color>> kFamButtonsColors = [
     Color(0xffEA5674),
   ],
 ];
+
+const List<String> months = [
+  "Stycznia",
+  "Lutego",
+  "Marca",
+  "Kwietnia",
+  "Maja",
+  "Czerwca",
+  "Lipca",
+  "Sierpnia",
+  "Września",
+  "Października",
+  "Listopada",
+  "Grudnia",
+];
+
+const List<String> weekDays = [
+  "Poniedziałek",
+  "Wtorek",
+  "Środa",
+  "Czwartek",
+  "Piątek",
+  "Sobota",
+  "Niedziela",
+];

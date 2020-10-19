@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mental_health/components/button.dart';
-import 'package:mental_health/components/input_field.dart';
+import 'package:mental_health/components/interaction_components/button.dart';
+import 'package:mental_health/components/interaction_components/input_field.dart';
 import 'package:mental_health/services/family_services.dart';
 import 'package:mental_health/main.dart';
 

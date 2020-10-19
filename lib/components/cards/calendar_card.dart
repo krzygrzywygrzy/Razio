@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CalendarCard extends StatelessWidget {
-  const CalendarCard({this.onTap});
+  const CalendarCard({this.onTap, this.month});
   final Function onTap;
+  final String month;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -25,7 +27,7 @@ class CalendarCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "Października",
+                  "$month",
                   style: TextStyle(
                     fontSize: 18,
                   ),
