@@ -53,6 +53,55 @@ class _DashbordState extends State<Dashbord> {
                 ),
               ),
               ColoredCard(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 200,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Twoje notatki",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 20,
+                                  letterSpacing: 1),
+                            ),
+                            Text(
+                              "Tutaj masz podgląd to twoich osobistych notatek",
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(color: Color(0xffe6e6e6)),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8, bottom: 4),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(30)),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0, vertical: 4),
+                                  child: Text("Sprawdź"),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Icon(
+                        Icons.event_note_rounded,
+                        color: Colors.white,
+                        size: 90,
+                      ),
+                    ],
+                  ),
+                ),
                 onTap: () {
                   Navigator.pushNamed(context, "/privateNotes");
                 },
@@ -80,4 +129,4 @@ class _DashbordState extends State<Dashbord> {
 //                 builder: (context, state) {
 //                   return Text(state.token.toString());
 //                 },
-//               )
+//               )ww

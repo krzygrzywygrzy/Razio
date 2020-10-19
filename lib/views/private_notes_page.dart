@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mental_health/components/ovalButton.dart';
+import 'package:mental_health/components/interaction_components/ovalButton.dart';
 import 'package:mental_health/const.dart';
 
 class PrivateNotesPage extends StatefulWidget {

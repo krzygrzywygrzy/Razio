@@ -1,20 +1,49 @@
 import 'dart:io';
-
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:mental_health/const.dart';
 import 'package:mental_health/main.dart';
+import 'package:mental_health/models/family.dart';
+import 'package:mental_health/redux/actions.dart';
 
 class FamilyServices {
-  static Future add(var name) async {
+  static Future add(String name, BuildContext context) async {
     var token = store.state.token;
-
     var api = '/api/Family/create';
     var requestBody = jsonEncode({"familyName": '$name'});
     var headers = {
-      "Authentication": 'Bearer $token',
-      'Content-Type': 'application/json'
+      HttpHeaders.authorizationHeader: "Bearer $token",
+      'Content-Type': 'application/json',
+    };
+    try {
+      http
+          .post(
+        Uri.encodeFull("$URL" + "$api"),
+        body: requestBody,
+        headers: headers,
+      )
+          .then((var response) {
+        if (response.statusCode == 200) {
+          var json = jsonDecode(response.body);
+          Family fam = Family.fromJson(json);
+          store.dispatch(AddFamily(fam));
+        } else
+          print(response.body);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static Future join(var code, BuildContext context) async {
+    var token = store.state.token;
+    var api = '/api/Family/join';
+    var requestBody = jsonEncode({"invitationCode": '$code'});
+    var headers = {
+      HttpHeaders.authorizationHeader: "Bearer $token",
+      'Content-Type': 'application/json',
     };
 
     try {
@@ -26,33 +55,10 @@ class FamilyServices {
       )
           .then((var response) {
         if (response.statusCode == 200) {
-          print(response);
-        } else
-          print(response.statusCode);
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  static Future join(var code) async {
-    var token = store.state.token;
-    print(token);
-
-    var api = '/api/Family/join';
-    var requestBody = jsonEncode({"invitationCode": '$code'});
-    var headers = {"Authentication": 'Bearer $token'};
-
-    try {
-      http
-          .post(
-        Uri.encodeFull("$URL" + "$api"),
-        body: requestBody,
-        headers: headers,
-      )
-          .then((var response) {
-        if (response.statusCode == 200) {
-          print(response);
+          var json = jsonDecode(response.body);
+          Family fam = Family.fromJson(json);
+          print(fam.familyId);
+          store.dispatch(AddFamily(fam));
         }
       });
     } catch (e) {
