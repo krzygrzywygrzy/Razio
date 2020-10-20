@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CalendarCard extends StatelessWidget {
-  const CalendarCard({this.onTap, this.month});
+  const CalendarCard({this.onTap, this.month, this.day});
   final Function onTap;
   final String month;
+  final int day;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class CalendarCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "17",
+                  "$day",
                   style: TextStyle(
                     fontSize: 90,
                     fontWeight: FontWeight.w300,

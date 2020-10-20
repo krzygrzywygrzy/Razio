@@ -1,5 +1,5 @@
 class Date {
-  int year, month, day, hour, minute;
+  String year, month, day, hour, minute;
 
   Date({this.year, this.month, this.day, this.hour, this.minute});
 

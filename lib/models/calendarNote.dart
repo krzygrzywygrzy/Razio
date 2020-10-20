@@ -4,7 +4,7 @@ class CalendarNote {
   Date date;
   String message, userId, userRole;
 
-  CalendarNote({this.message, this.userId, this.userRole});
+  CalendarNote({this.message, this.userId, this.userRole, this.date});
 
   CalendarNote.fromJson(Map<String, dynamic> json)
       : message = json['messasge'],

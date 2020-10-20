@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mental_health/components/cards/colored_card.dart';
+import 'package:mental_health/components/interaction_components/little_button.dart';
 
 class EmptyFamilyLayout extends StatelessWidget {
   EmptyFamilyLayout({this.code});
@@ -35,24 +36,11 @@ class EmptyFamilyLayout extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  onTap: () {
-                    //TODO:
-                  },
-                  child: Container(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 4.0, horizontal: 8),
-                      child: Text('Wyślij'),
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+              LittleButton(
+                label: "wyślij",
+                onTap: () {
+                  //TODO:
+                },
               ),
             ],
           ),

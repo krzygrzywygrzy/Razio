@@ -34,8 +34,13 @@ class LogIn {
 
           //fetch privateNote
           List<PrivateNote> pn = [];
-          for (int i = 0; i <= json["privateNotes"].length - 1; i++) {
-            pn.add(PrivateNote.fromJson(json["calendarNote"][i]));
+          if (json["privateNotes"] != 0) {
+            for (int i = 0; i <= json["privateNotes"].length - 1; i++) {
+              PrivateNote note = PrivateNote.fromJson(json["privateNotes"][i]);
+              note.creationDate =
+                  Date.fromJson(json["privateNotes"][i]["creationDate"]);
+              pn.add(note);
+            }
           }
           primaryData.privateNotes = pn;
 
@@ -52,8 +57,8 @@ class LogIn {
                   j++) {
                 cn.add(CalendarNote.fromJson(
                     json["families"][i]["calendarNotes"][j]));
-                Date date =
-                    Date.fromJson(json["families"][i]["calendarNotes"]["date"]);
+                Date date = Date.fromJson(
+                    json["families"][i]["calendarNotes"]["creationDate"]);
                 cn[i].date = date;
               }
             }
@@ -62,8 +67,8 @@ class LogIn {
             if (json["families"][i]["visits"].length != 0) {
               for (int k = 0; k <= json["families"][i]["visits"].length; k++) {
                 vs.add(Visit.fromJson(json["families"][i]["visits"][k]));
-                Date date =
-                    Date.fromJson(json["families"][i]["visits"]["date"]);
+                Date date = Date.fromJson(
+                    json["families"][i]["visits"]["creationDate"]);
                 vs[i].date = date;
               }
             }

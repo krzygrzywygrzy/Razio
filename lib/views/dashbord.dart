@@ -18,14 +18,15 @@ class _DashbordState extends State<Dashbord> {
       backgroundColor: Colors.white,
       body: Container(
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-          colors: [
-            Colors.white,
-            Color(0xffe3e3e3),
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        )),
+          gradient: LinearGradient(
+            colors: [
+              Colors.white,
+              Color(0xffe3e3e3),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
         child: SafeArea(
           child: Column(
             children: [

@@ -5,6 +5,7 @@ import 'package:mental_health/components/interaction_components/input_field.dart
 import 'package:email_validator/email_validator.dart';
 import 'package:mental_health/models/primaryData.dart';
 import 'package:mental_health/redux/actions.dart';
+import 'package:mental_health/services/allert.dart';
 import 'package:mental_health/services/log_in.dart';
 import 'package:mental_health/services/register.dart';
 import 'package:mental_health/const.dart';
@@ -40,25 +41,15 @@ class _RegisterPageState extends State<RegisterPage> {
           Navigator.pushNamed(context, "/dashboard");
         } else if (response == "500") {
           print(response);
-          error("Coś poszło nie tak");
+          allert("Coś poszło nie tak", context);
         } else {
-          error("Użytkownik o takim adresie e-mail istnieje!");
+          allert("Użytkownik o takim adresie e-mail istnieje!", context);
           print(response);
         }
       } catch (e) {
         print(e);
       }
     }
-  }
-
-  error(String message) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Align(alignment: Alignment.center, child: Text("$message")),
-          );
-        });
   }
 
   @override

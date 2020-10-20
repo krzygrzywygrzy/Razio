@@ -1,12 +1,12 @@
+import 'date.dart';
+
 class PrivateNote {
   String message;
-  DateTime creationDate;
+  Date creationDate;
 
   PrivateNote(this.creationDate, this.message);
 
-  PrivateNote.fromJson(Map<String, dynamic> json)
-      : message = json['message'],
-        creationDate = json['creationDate'];
+  PrivateNote.fromJson(Map<String, dynamic> json) : message = json['message'];
 
   List<PrivateNote> listFromJson(List<dynamic> json) {
     return json == null
