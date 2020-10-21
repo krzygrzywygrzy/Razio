@@ -4,7 +4,7 @@ class PrivateNote {
   String message;
   Date creationDate;
 
-  PrivateNote(this.creationDate, this.message);
+  PrivateNote({this.creationDate, this.message});
 
   PrivateNote.fromJson(Map<String, dynamic> json) : message = json['message'];
 

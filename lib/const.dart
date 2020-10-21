@@ -41,3 +41,14 @@ const List<String> weekDays = [
   "Sobota",
   "Niedziela",
 ];
+
+const BoxDecoration kGradientBg = BoxDecoration(
+  gradient: LinearGradient(
+    colors: [
+      Colors.white,
+      Color(0xffe3e3e3),
+    ],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  ),
+);

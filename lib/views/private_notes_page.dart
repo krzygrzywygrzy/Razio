@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mental_health/components/interaction_components/ovalButton.dart';
 import 'package:mental_health/const.dart';
+import 'package:mental_health/main.dart';
+import 'package:mental_health/models/date.dart';
+import 'package:mental_health/models/primaryData.dart';
+import 'package:mental_health/models/privateNote.dart';
+import 'package:mental_health/redux/actions.dart';
+import 'package:mental_health/views/edit_note.dart';
 
 class PrivateNotesPage extends StatefulWidget {
   PrivateNotesPage({Key key}) : super(key: key);
@@ -14,9 +21,65 @@ class _PrivateNotesPageState extends State<PrivateNotesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Stack(
-          children: [],
+      body: Container(
+        decoration: kGradientBg,
+        child: SafeArea(
+          child: StoreConnector<PrimaryData, PrimaryData>(
+            converter: (store) => store.state,
+            builder: (context, state) {
+              if (state.privateNotes.length == 0) {
+                return Container(
+                  child: Center(
+                    child: Text("Nie masz jeszcze notatek"),
+                  ),
+                );
+              } else {
+                return Container(
+                  child: GridView.builder(
+                    itemCount: state.privateNotes.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                    ),
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditNote(
+                                        index: index,
+                                      )));
+                        },
+                        child: AspectRatio(
+                          aspectRatio: 1 / 1,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(30),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Color(0xffc9c9c9),
+                                    blurRadius: 5,
+                                    spreadRadius: 0.2,
+                                  ),
+                                ],
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Text(state.privateNotes[index].message),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }
+            },
+          ),
         ),
       ),
       /////// floating action button
@@ -53,6 +116,32 @@ class _PrivateNotesPageState extends State<PrivateNotesPage> {
               ),
             ),
             OvalButton(
+              onTap: () {
+                setState(() {
+                  DateTime date = DateTime.now();
+                  store.dispatch(
+                    AddPrivateNote(
+                      PrivateNote(
+                        message: "",
+                        creationDate: Date(
+                          year: date.year.toString(),
+                          month: date.month.toString(),
+                          day: date.month.toString(),
+                          hour: date.hour.toString(),
+                          minute: date.minute.toString(),
+                        ),
+                      ),
+                    ),
+                  );
+                });
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EditNote(
+                            index: store.state.privateNotes.length - 1,
+                          )),
+                );
+              },
               color: kFamButtonsColors[0],
               icon: Icon(
                 Icons.add,

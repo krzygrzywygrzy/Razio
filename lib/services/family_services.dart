@@ -7,6 +7,7 @@ import 'package:mental_health/const.dart';
 import 'package:mental_health/main.dart';
 import 'package:mental_health/models/family.dart';
 import 'package:mental_health/redux/actions.dart';
+import 'package:mental_health/services/allert.dart';
 
 class FamilyServices {
   static Future add(String name, BuildContext context) async {
@@ -59,6 +60,8 @@ class FamilyServices {
           Family fam = Family.fromJson(json);
           print(fam.familyId);
           store.dispatch(AddFamily(fam));
+        } else {
+          allert("Zły kod lub jesteś już w rodzinie", context);
         }
       });
     } catch (e) {

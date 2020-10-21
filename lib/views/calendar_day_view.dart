@@ -15,7 +15,7 @@ class DayView extends StatefulWidget {
 
 class _DayViewState extends State<DayView> {
   CalendarNote note;
-
+  String message = "";
   @override
   void initState() {
     note = CalendarNote(
@@ -120,6 +120,9 @@ class _DayViewState extends State<DayView> {
                           child: TextField(
                             cursorColor: Theme.of(context).primaryColor,
                             maxLines: null,
+                            onChanged: (value) {
+                              message = value;
+                            },
                             keyboardType: TextInputType.multiline,
                             decoration: InputDecoration(
                               hintText: "Twoja notatka",

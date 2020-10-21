@@ -9,5 +9,11 @@ PrimaryData reducer(PrimaryData prevState, dynamic action) {
   if (action is AddFamily) {
     newState.families.add(action.payload);
   }
+  if (action is AddPrivateNote) {
+    newState.privateNotes.add(action.payload);
+  }
+  if (action is EditPrivateNote) {
+    newState.privateNotes[action.index].message = action.message;
+  }
   return newState;
 }

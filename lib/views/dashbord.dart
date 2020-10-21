@@ -5,6 +5,7 @@ import 'package:mental_health/components/family_components/families_list.dart';
 import 'package:mental_health/components/user_dashboard.dart';
 import 'package:mental_health/main.dart';
 import 'package:mental_health/models/primaryData.dart';
+import 'package:mental_health/const.dart';
 
 class Dashbord extends StatefulWidget {
   @override
@@ -17,16 +18,7 @@ class _DashbordState extends State<Dashbord> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.white,
-              Color(0xffe3e3e3),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
+        decoration: kGradientBg,
         child: SafeArea(
           child: Column(
             children: [
@@ -36,12 +28,25 @@ class _DashbordState extends State<Dashbord> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Witaj!",
-                      style: TextStyle(
-                        fontSize: 35,
-                        letterSpacing: 1,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Witaj!",
+                          style: TextStyle(
+                            fontSize: 35,
+                            letterSpacing: 1,
+                          ),
+                        ),
+                        Text(
+                          "Razio",
+                          style: TextStyle(
+                            fontSize: 25,
+                            letterSpacing: 1,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      ],
                     ),
                     Container(
                       height: 50,

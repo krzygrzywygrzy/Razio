@@ -8,6 +8,7 @@ import 'package:mental_health/services/allert.dart';
 import 'package:mental_health/views/calendar_day_view.dart';
 import '../const.dart';
 import 'package:mental_health/main.dart';
+import "package:mental_health/components/interaction_components/bottom_sheet.dart";
 
 class UserDashboard extends StatefulWidget {
   UserDashboard({Key key}) : super(key: key);
@@ -112,6 +113,9 @@ class _UserDashboardState extends State<UserDashboard> {
             height: 8,
           ),
           ColoredCard(
+            onTap: () {
+              ShowBottomSheet.bottomSheetAddFamily(context);
+            },
             child: StoreConnector<PrimaryData, PrimaryData>(
               converter: (store) => store.state,
               builder: (context, state) {
@@ -134,14 +138,8 @@ class _UserDashboardState extends State<UserDashboard> {
                             vertical: 2,
                           ),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Container(
-                                child: TextField(),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                              ),
                               LittleButton(
                                 label: "Dodaj",
                               ),
