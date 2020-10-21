@@ -5,10 +5,13 @@ import 'package:mental_health/components/cards/colored_card.dart';
 import 'package:mental_health/components/interaction_components/little_button.dart';
 import 'package:mental_health/models/primaryData.dart';
 import 'package:mental_health/services/allert.dart';
+import 'package:mental_health/services/calendar_data.dart';
 import 'package:mental_health/views/calendar_day_view.dart';
 import '../const.dart';
 import 'package:mental_health/main.dart';
 import "package:mental_health/components/interaction_components/bottom_sheet.dart";
+
+import 'avatar.dart';
 
 class UserDashboard extends StatefulWidget {
   UserDashboard({Key key}) : super(key: key);
@@ -20,10 +23,12 @@ class UserDashboard extends StatefulWidget {
 class _UserDashboardState extends State<UserDashboard> {
   int month = 0;
   int days;
+  int year;
   @override
   void initState() {
     month = DateTime.now().month - 1;
     days = dayInMonth(month);
+    year = DateTime.now().year;
     super.initState();
   }
 
@@ -93,8 +98,7 @@ class _UserDashboardState extends State<UserDashboard> {
                             builder: (context) => DayView(
                               day: index + 1,
                               month: month,
-                              year:
-                                  DateTime.now().year, //TODO: chceck with year
+                              year: year, //TODO: chceck with year
                             ),
                           ),
                         );
@@ -114,17 +118,46 @@ class _UserDashboardState extends State<UserDashboard> {
           ),
           ColoredCard(
             onTap: () {
-              ShowBottomSheet.bottomSheetAddFamily(context);
+              if (store.state.families.length != 1) {
+                ShowBottomSheet.bottomSheetAddFamily(context);
+              }
             },
             child: StoreConnector<PrimaryData, PrimaryData>(
               converter: (store) => store.state,
               builder: (context, state) {
                 if (store.state.families.length != 0) {
-                  return Column();
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Awatar(),
+                          Column(
+                            children: [
+                              Text(
+                                "Twój psycholog:",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                store.state.families[0].psychologistNames,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
                 } else {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "Nie jesteś jeszcze połączony ze specjalistą!!!",

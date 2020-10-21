@@ -13,6 +13,11 @@ class EditNote extends StatefulWidget {
 
 class _EditNoteState extends State<EditNote> {
   String message;
+  @override
+  void initState() {
+    message = store.state.privateNotes[widget.index].message;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

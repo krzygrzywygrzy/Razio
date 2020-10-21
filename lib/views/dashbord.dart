@@ -38,14 +38,14 @@ class _DashbordState extends State<Dashbord> {
                             letterSpacing: 1,
                           ),
                         ),
-                        Text(
-                          "Razio",
-                          style: TextStyle(
-                            fontSize: 25,
-                            letterSpacing: 1,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
+                        // Text(
+                        //   "Razio",
+                        //   style: TextStyle(
+                        //     fontSize: 25,
+                        //     letterSpacing: 1,
+                        //     color: Theme.of(context).primaryColor,
+                        //   ),
+                        // ),
                       ],
                     ),
                     Container(
@@ -112,7 +112,6 @@ class _DashbordState extends State<Dashbord> {
                   Navigator.pushNamed(context, "/privateNotes");
                 },
               ),
-              //FamiliesList(),
               StoreConnector<PrimaryData, PrimaryData>(
                 converter: (store) => store.state,
                 builder: (context, state) {
@@ -121,7 +120,7 @@ class _DashbordState extends State<Dashbord> {
                   } else
                     return UserDashboard();
                 },
-              )
+              ),
             ],
           ),
         ),
@@ -136,3 +135,4 @@ class _DashbordState extends State<Dashbord> {
 //                   return Text(state.token.toString());
 //                 },
 //               )ww
+//Nkbcp9Tm

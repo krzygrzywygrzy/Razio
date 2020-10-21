@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mental_health/components/avatar.dart';
 
 class FamilyCard extends StatelessWidget {
   FamilyCard({this.colors, this.name, this.appointment, this.onTap});
@@ -16,22 +17,7 @@ class FamilyCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 16, bottom: 16, left: 24, right: 16),
-                  child: Container(
-                    height: 60,
-                    width: 60,
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: new DecorationImage(
-                          fit: BoxFit.fitHeight,
-                          image: NetworkImage(
-                              "https://samequizy.pl/wp-content/uploads/2016/03/filing_images_27b2790a29f1.jpg"),
-                        )),
-                  ),
-                ),
+                Awatar(),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

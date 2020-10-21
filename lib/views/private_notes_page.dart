@@ -68,7 +68,11 @@ class _PrivateNotesPageState extends State<PrivateNotesPage> {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(12.0),
-                                child: Text(state.privateNotes[index].message),
+                                child: Text(
+                                  state.privateNotes[index].message,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 8,
+                                ),
                               ),
                             ),
                           ),
