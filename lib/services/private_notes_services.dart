@@ -25,7 +25,7 @@ class PNotesServices {
           .then(
         (var response) {
           if (response.statusCode == 200) {
-            print("Private note added");
+            print("Dodano notatkę!");
           } else {
             allert("Wystąpił błąd z dodawaniem notatki do bazy", context);
           }

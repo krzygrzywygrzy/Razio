@@ -29,14 +29,11 @@ class _UserDashboardState extends State<UserDashboard> {
     month = DateTime.now().month - 1;
     year = DateTime.now().year;
     days = dayInMonth(month);
-
     super.initState();
   }
 
   int dayInMonth(int month) {
     switch (month) {
-      case 1:
-        return 28;
       case 0:
       case 2:
       case 4:
@@ -51,8 +48,22 @@ class _UserDashboardState extends State<UserDashboard> {
       case 10:
         return 30;
         break;
+      case 1:
+        return 28;
       default:
         break;
+    }
+  }
+
+  getNotesForMonth() {
+    try {
+      CalendarServices.getNotesForMonth(
+          store.state.families[widget.index].familyId,
+          month,
+          widget.index,
+          context);
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -88,18 +99,14 @@ class _UserDashboardState extends State<UserDashboard> {
                           () {
                             if (month != 0) {
                               month--;
-                              days = dayInMonth(month + 1);
                             } else {
                               year--;
                               month = 11;
-                              days = dayInMonth(month + 1);
                             }
+                            getNotesForMonth();
+                            days = dayInMonth(month);
                           },
                         );
-                        CalendarServices.getNotesForMonth(
-                            store.state.families[widget.index].familyId,
-                            month,
-                            context);
                       },
                       child: Icon(Icons.arrow_back_ios),
                     ),
@@ -108,17 +115,13 @@ class _UserDashboardState extends State<UserDashboard> {
                         setState(
                           () {
                             if (month != 11) {
-                              days = dayInMonth(month + 1);
                               month++;
                             } else {
                               year++;
                               month = 0;
-                              days = dayInMonth(month + 1);
                             }
-                            CalendarServices.getNotesForMonth(
-                                store.state.families[widget.index].familyId,
-                                month,
-                                context);
+                            getNotesForMonth();
+                            days = dayInMonth(month);
                           },
                         );
                       },

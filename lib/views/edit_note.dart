@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mental_health/const.dart';
 import 'package:mental_health/redux/actions.dart';
+import 'package:mental_health/services/private_notes_services.dart';
 
 import '../main.dart';
 
@@ -67,10 +68,15 @@ class _EditNoteState extends State<EditNote> {
                           right: 24,
                           child: GestureDetector(
                             onTap: () {
-                              setState(() {
-                                store.dispatch(EditPrivateNote(
-                                    message: message, index: widget.index));
-                              });
+                              setState(
+                                () {
+                                  store.dispatch(
+                                    EditPrivateNote(
+                                        message: message, index: widget.index),
+                                  );
+                                },
+                              );
+                              PNotesServices.add(message, context);
                               Navigator.pop(context);
                             },
                             child: Text("Zapisz"),

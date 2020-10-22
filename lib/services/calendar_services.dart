@@ -41,7 +41,7 @@ class CalendarServices {
   }
 
   static Future getNotesForMonth(
-      var familyId, var month, BuildContext context) async {
+      var familyId, var month, int index, BuildContext context) async {
     var api = "/api/Calendar/getNotesForMonth";
     var requestBody = jsonEncode(
       {"familyId": '$familyId', "month": '$month'},
@@ -69,11 +69,12 @@ class CalendarServices {
                 ),
               );
             }
-            print(cn);
+
             store.dispatch(
               UpdateCalendarNotesList(payload: cn),
             );
-            print(store.state.families[0].calendarNotes.length);
+
+            print("Pobrano notatki!");
           }
         } else {
           allert("Wystąpił błąd w pobieraniu notatek!", context);
