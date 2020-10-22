@@ -118,7 +118,9 @@ class _DashbordState extends State<Dashbord> {
                   if (store.state.userInfo.role == "PSY") {
                     return FamiliesList();
                   } else
-                    return UserDashboard();
+                    return UserDashboard(
+                      index: 0,
+                    );
                 },
               ),
             ],

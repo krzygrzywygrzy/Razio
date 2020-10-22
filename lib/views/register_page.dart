@@ -35,7 +35,7 @@ class _RegisterPageState extends State<RegisterPage> {
         String response =
             await Register.register(email, password, name, surname, role);
         if (response == "200") {
-          PrimaryData pd = await LogIn.logIn(email, password);
+          PrimaryData pd = await LogIn.logIn(email, password, context);
           //add to store
           StoreProvider.of<PrimaryData>(context).dispatch(LogInState(pd));
           Navigator.pushNamed(context, "/dashboard");

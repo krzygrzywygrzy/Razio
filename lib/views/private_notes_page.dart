@@ -128,11 +128,11 @@ class _PrivateNotesPageState extends State<PrivateNotesPage> {
                       PrivateNote(
                         message: "",
                         creationDate: Date(
-                          year: date.year.toString(),
-                          month: date.month.toString(),
-                          day: date.month.toString(),
-                          hour: date.hour.toString(),
-                          minute: date.minute.toString(),
+                          year: date.year,
+                          month: date.month,
+                          day: date.month,
+                          hour: date.hour,
+                          minute: date.minute,
                         ),
                       ),
                     ),

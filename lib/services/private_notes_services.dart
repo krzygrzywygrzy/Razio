@@ -18,7 +18,7 @@ class PNotesServices {
     try {
       http
           .post(
-        "$URL" + "$api",
+        Uri.encodeFull("$URL" + "$api"),
         headers: headers,
         body: requestBody,
       )

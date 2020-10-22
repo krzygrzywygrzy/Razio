@@ -21,7 +21,7 @@ class _LogInPageState extends State<LogInPage> {
     if (password != "" && EmailValidator.validate(email) == true) {
       try {
         // get data from server
-        PrimaryData pd = await LogIn.logIn(email, password);
+        PrimaryData pd = await LogIn.logIn(email, password, context);
 
         //add to store
         StoreProvider.of<PrimaryData>(context).dispatch(LogInState(pd));
@@ -124,6 +124,7 @@ class _LogInPageState extends State<LogInPage> {
                       label: "Zaloguj",
                       toDo: () {
                         logIn();
+                        //TODO: show spinner
                       },
                     ),
                     SizedBox(

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class Awatar extends StatelessWidget {
-  const Awatar({
-    Key key,
-  }) : super(key: key);
+class Avatar extends StatelessWidget {
+  const Avatar({@required this.size});
+
+  final double size;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 16, bottom: 16, left: 24, right: 16),
       child: Container(
-        height: 60,
-        width: 60,
+        height: size,
+        width: size,
         padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
             shape: BoxShape.circle,

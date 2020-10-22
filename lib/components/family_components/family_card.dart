@@ -17,7 +17,9 @@ class FamilyCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Awatar(),
+                Avatar(
+                  size: 60,
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

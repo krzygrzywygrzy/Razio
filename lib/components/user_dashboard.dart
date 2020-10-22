@@ -5,16 +5,16 @@ import 'package:mental_health/components/cards/colored_card.dart';
 import 'package:mental_health/components/interaction_components/little_button.dart';
 import 'package:mental_health/models/primaryData.dart';
 import 'package:mental_health/services/allert.dart';
-import 'package:mental_health/services/calendar_data.dart';
+import 'package:mental_health/services/calendar_services.dart';
 import 'package:mental_health/views/calendar_day_view.dart';
 import '../const.dart';
 import 'package:mental_health/main.dart';
 import "package:mental_health/components/interaction_components/bottom_sheet.dart";
-
 import 'avatar.dart';
 
 class UserDashboard extends StatefulWidget {
-  UserDashboard({Key key}) : super(key: key);
+  UserDashboard({this.index});
+  final int index;
 
   @override
   _UserDashboardState createState() => _UserDashboardState();
@@ -27,8 +27,9 @@ class _UserDashboardState extends State<UserDashboard> {
   @override
   void initState() {
     month = DateTime.now().month - 1;
-    days = dayInMonth(month);
     year = DateTime.now().year;
+    days = dayInMonth(month);
+
     super.initState();
   }
 
@@ -36,7 +37,6 @@ class _UserDashboardState extends State<UserDashboard> {
     switch (month) {
       case 1:
         return 28;
-        break;
       case 0:
       case 2:
       case 4:
@@ -45,7 +45,6 @@ class _UserDashboardState extends State<UserDashboard> {
       case 9:
       case 11:
         return 31;
-        break;
       case 3:
       case 5:
       case 8:
@@ -63,6 +62,7 @@ class _UserDashboardState extends State<UserDashboard> {
       child: Column(
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
                 padding:
@@ -75,6 +75,56 @@ class _UserDashboardState extends State<UserDashboard> {
                       fontSize: 30,
                     ),
                   ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(
+                          () {
+                            if (month != 0) {
+                              month--;
+                              days = dayInMonth(month + 1);
+                            } else {
+                              year--;
+                              month = 11;
+                              days = dayInMonth(month + 1);
+                            }
+                          },
+                        );
+                        CalendarServices.getNotesForMonth(
+                            store.state.families[widget.index].familyId,
+                            month,
+                            context);
+                      },
+                      child: Icon(Icons.arrow_back_ios),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(
+                          () {
+                            if (month != 11) {
+                              days = dayInMonth(month + 1);
+                              month++;
+                            } else {
+                              year++;
+                              month = 0;
+                              days = dayInMonth(month + 1);
+                            }
+                            CalendarServices.getNotesForMonth(
+                                store.state.families[widget.index].familyId,
+                                month,
+                                context);
+                          },
+                        );
+                      },
+                      child: Icon(Icons.arrow_forward_ios),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -90,6 +140,9 @@ class _UserDashboardState extends State<UserDashboard> {
                   child: CalendarCard(
                     month: months[month],
                     day: index + 1,
+                    year: year,
+                    psyNote: true,
+                    visit: true,
                     onTap: () {
                       if (store.state.families.length != 0) {
                         Navigator.push(
@@ -98,7 +151,8 @@ class _UserDashboardState extends State<UserDashboard> {
                             builder: (context) => DayView(
                               day: index + 1,
                               month: month,
-                              year: year, //TODO: chceck with year
+                              year: year,
+                              index: 0,
                             ),
                           ),
                         );
@@ -125,63 +179,70 @@ class _UserDashboardState extends State<UserDashboard> {
             child: StoreConnector<PrimaryData, PrimaryData>(
               converter: (store) => store.state,
               builder: (context, state) {
-                if (store.state.families.length != 0) {
-                  return Expanded(
-                    child: Padding(
+                if (store.state.userInfo.role == USER_ROLE) {
+                  if (store.state.families.length != 0) {
+                    return Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Avatar(
+                              size: 60,
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  "Twój psycholog:",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  store.state.families[widget.index]
+                                      .psychologistNames,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Row(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Awatar(),
-                          Column(
-                            children: [
-                              Text(
-                                "Twój psycholog:",
-                                style: TextStyle(
-                                  color: Colors.white,
+                          Text(
+                            "Nie jesteś jeszcze połączony ze specjalistą!!!",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 2,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                LittleButton(
+                                  label: "Dodaj",
                                 ),
-                              ),
-                              Text(
-                                store.state.families[0].psychologistNames,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                  );
+                    );
+                  }
                 } else {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Nie jesteś jeszcze połączony ze specjalistą!!!",
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 2,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              LittleButton(
-                                label: "Dodaj",
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+                  return Container();
                 }
               },
             ),

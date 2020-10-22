@@ -5,9 +5,9 @@ import 'package:mental_health/components/cards/colored_card.dart';
 import 'package:mental_health/components/family_components/empty_family_card.dart';
 import 'package:mental_health/components/family_components/family_card.dart';
 import 'package:mental_health/const.dart';
-import 'package:mental_health/models/date.dart';
 import 'package:mental_health/models/primaryData.dart';
 import 'package:mental_health/models/visits.dart';
+import 'package:mental_health/views/psy_family_view.dart';
 
 class FamiliesList extends StatefulWidget {
   FamiliesList({Key key}) : super(key: key);
@@ -18,35 +18,8 @@ class FamiliesList extends StatefulWidget {
 
 class _FamiliesListState extends State<FamiliesList> {
   String appointmentTime(List<Visit> visits) {
-    //TODO: optimalization
+    //TODO: implement
     String data = "";
-    // if (visits.length == 0) {
-    //   data = "brak zaplanowanych wizyt";
-    // } else {
-    //   List<Date> dates = [];
-    //   for (int i = 0; i <= visits.length - 1; i++) {
-    //     dates.add(visits[i].date);
-    //   }
-    //   List<DateTime> dateTimes = [];
-    //   for (int i = 0; i <= dates.length - 1; i++) {
-    //     DateTime d = DateTime(dates[i].year., dates[i].month, dates[i].day,
-    //         dates[i].hour, dates[i].minute);
-    //     if (!d.isBefore(DateTime.now())) dateTimes.add(d);
-    //   }
-    //   if (dateTimes != []) {
-    //     DateTime earliest = dateTimes[0];
-
-    //     for (int i = 0; i <= dateTimes.length - 2; i++) {
-    //       if (dateTimes[i + 1].isBefore(dateTimes[i])) {
-    //         earliest = dateTimes[i + 1];
-    //       }
-    //     }
-    //     data =
-    //         "${earliest.day}-${earliest.month}-${earliest.year}:${earliest.hour}:${earliest.minute}";
-    //   } else {
-    //     data = "brak zaplanowanych wizyt";
-    //   }
-    // }
     return data;
   }
 
@@ -98,6 +71,16 @@ class _FamiliesListState extends State<FamiliesList> {
                         if (state.families[index].usrId != null) {
                           return Container(
                             child: ColoredCard(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: ((context) => PsyFamilyView(
+                                          index: index,
+                                        )),
+                                  ),
+                                );
+                              },
                               child: FamilyCard(
                                 colors: kFamButtonsColors[0],
                                 name: state.families[index].familyName,

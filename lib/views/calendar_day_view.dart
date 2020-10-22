@@ -4,51 +4,49 @@ import 'package:mental_health/const.dart';
 import 'package:mental_health/main.dart';
 import 'package:mental_health/models/calendarNote.dart';
 import 'package:mental_health/models/date.dart';
+import 'package:mental_health/redux/actions.dart';
+import 'package:mental_health/services/calendar_services.dart';
 
 class DayView extends StatefulWidget {
-  DayView({this.day, this.month, this.year});
-  final int day, month, year;
+  DayView({this.day, this.month, this.year, this.index});
+  final int day, month, year, index;
 
   @override
   _DayViewState createState() => _DayViewState();
 }
 
 class _DayViewState extends State<DayView> {
-  CalendarNote note;
   String message = "";
+  String psyMessage = "";
   @override
   void initState() {
-    note = CalendarNote(
-        message: "",
-        // userId: store.state.families[0].usrId,
-        userRole: "USR",
-        date: Date(
-          year: widget.year.toString(),
-          month: widget.month.toString(),
-          day: widget.day.toString(),
-          hour: DateTime.now().hour.toString(),
-          minute: DateTime.now().minute.toString(),
-        ));
     getData();
     super.initState();
   }
 
   getData() {
-    if (store.state.families[0].calendarNotes.length != 0) {
-      for (int i = 1;
-          i <= store.state.families[0].calendarNotes.length - 1;
-          i++) {
-        if (store.state.families[0].calendarNotes[i].date.day ==
-                widget.day.toString() ||
-            store.state.families[0].calendarNotes[i].date.month ==
-                widget.month.toString() ||
-            store.state.families[0].calendarNotes[i].date.day ==
-                widget.year.toString()) {
-          note = store.state.families[0].calendarNotes[i];
-          break;
+    if (store.state.families[widget.index].calendarNotes != null) {
+      store.state.families[widget.index].calendarNotes.forEach((element) {
+        if (widget.year == element.date.year &&
+            widget.month + 1 == element.date.month &&
+            widget.day == element.date.day) {
+          if (element.userRole == USER_ROLE) {
+            message = element.message;
+          } else if (element.userRole == PSY_ROLE) {
+            psyMessage = element.message;
+          }
         }
-      }
+      });
     }
+  }
+
+  bool canAddNote() {
+    if (widget.day == DateTime.now().day &&
+        widget.month + 1 == DateTime.now().month &&
+        widget.year == DateTime.now().year)
+      return true;
+    else
+      return false;
   }
 
   @override
@@ -117,7 +115,9 @@ class _DayViewState extends State<DayView> {
                         Padding(
                           padding: const EdgeInsets.only(
                               top: 16.0, left: 16, right: 16, bottom: 30),
-                          child: TextField(
+                          child: TextFormField(
+                            enabled: canAddNote(),
+                            initialValue: message,
                             cursorColor: Theme.of(context).primaryColor,
                             maxLines: null,
                             onChanged: (value) {
@@ -134,6 +134,36 @@ class _DayViewState extends State<DayView> {
                           bottom: 24,
                           right: 24,
                           child: GestureDetector(
+                            onTap: () async {
+                              if (canAddNote()) {
+                                try {
+                                  CalendarServices.addNote(
+                                      store.state.families[widget.index]
+                                          .familyId,
+                                      message,
+                                      context);
+                                  setState(() {
+                                    store.dispatch(
+                                      AddNoteInCallendar(
+                                        payload: CalendarNote(
+                                          userId: store.state.userInfo.id,
+                                          message: message,
+                                          userRole: store.state.userInfo.role,
+                                          date: Date(
+                                            day: widget.day,
+                                            month: widget.month + 1,
+                                            year: widget.year,
+                                            minute: DateTime.now().minute,
+                                            hour: DateTime.now().hour,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  });
+                                  Navigator.pop(context);
+                                } catch (e) {}
+                              }
+                            },
                             child: Text("Zapisz"),
                           ),
                         ),

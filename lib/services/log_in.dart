@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -9,12 +10,15 @@ import 'package:mental_health/models/primaryData.dart';
 import 'package:mental_health/models/privateNote.dart';
 import 'package:mental_health/models/userInfo.dart';
 import 'package:mental_health/models/visits.dart';
+import 'package:mental_health/services/allert.dart';
 
 class LogIn {
-  static Future<dynamic> logIn(var email, var password) async {
+  static Future<dynamic> logIn(
+      var email, var password, BuildContext context) async {
     var api = "/api/User/login";
     var requestBody = jsonEncode({"email": '$email', "password": '$password'});
     var data;
+    print("Logowanie....");
     try {
       await http
           .post(
@@ -24,6 +28,7 @@ class LogIn {
       )
           .then((var response) {
         if (response.statusCode == 200) {
+          // print(response.body);
           data = response.body;
           PrimaryData primaryData;
           var json = jsonDecode(response.body);
@@ -51,6 +56,7 @@ class LogIn {
             Family fam = Family.fromJson(json["families"][i]);
 
             List<CalendarNote> cn = [];
+
             if (json["families"][i]["calendarNotes"].length != 0) {
               for (int j = 0;
                   j <= json["families"][i]["calendarNotes"].length - 1;
@@ -58,8 +64,8 @@ class LogIn {
                 cn.add(CalendarNote.fromJson(
                     json["families"][i]["calendarNotes"][j]));
                 Date date = Date.fromJson(
-                    json["families"][i]["calendarNotes"]["creationDate"]);
-                cn[i].date = date;
+                    json["families"][i]["calendarNotes"][j]["date"]);
+                cn[j].date = date;
               }
             }
 
@@ -72,7 +78,6 @@ class LogIn {
                 vs[i].date = date;
               }
             }
-
             fam.calendarNotes = cn;
             fam.visits = vs;
             f.add(fam);
@@ -83,6 +88,7 @@ class LogIn {
         } else {
           //if error return statusCode
           data = response.statusCode.toString();
+          allert("Coś poszło nie tak", context);
         }
       });
     } catch (e) {

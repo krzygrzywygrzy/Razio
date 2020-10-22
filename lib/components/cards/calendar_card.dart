@@ -1,10 +1,32 @@
 import 'package:flutter/material.dart';
 
 class CalendarCard extends StatelessWidget {
-  const CalendarCard({this.onTap, this.month, this.day});
+  const CalendarCard(
+      {this.onTap, this.month, this.day, this.year, this.visit, this.psyNote});
   final Function onTap;
   final String month;
+  final int year;
   final int day;
+  final bool visit, psyNote;
+
+  List<Widget> bottomIcons() {
+    List<Widget> list = [];
+    if (visit != null && psyNote != null) {
+      visit == true
+          ? list.add(
+              Icon(
+                Icons.pending_actions_rounded,
+              ),
+            )
+          : print("");
+      psyNote == true
+          ? list.add(
+              Icon(Icons.border_color),
+            )
+          : print("");
+    }
+    return list;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +55,15 @@ class CalendarCard extends StatelessWidget {
                     fontSize: 18,
                   ),
                 ),
-                Text("Sobota"),
+                Text(
+                  "$year",
+                ),
                 SizedBox(
                   height: 5,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.pending_actions_outlined),
-                    Icon(Icons.border_color)
-                  ],
+                  children: bottomIcons(),
                 ),
               ],
             ),

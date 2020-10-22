@@ -31,7 +31,6 @@ class ShowBottomSheet {
                     obscure: false,
                     onChanged: (value) {
                       name = value;
-                      print(name);
                     },
                   ),
                   Padding(
