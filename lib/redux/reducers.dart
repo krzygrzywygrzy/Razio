@@ -21,6 +21,12 @@ PrimaryData reducer(PrimaryData prevState, dynamic action) {
   if (action is AddVisit) {
     newState.families[action.index].visits.add(action.payload);
   }
+  if (action is UpdateCalendarNotesList) {
+    newState.families[action.index].calendarNotes = action.payload;
+  }
+  if (action is UpdateVisitList) {
+    newState.families[action.index].visits = action.payload;
+  }
 
   return newState;
 }

@@ -51,7 +51,8 @@ class AddNoteInCallendar {
 // update notes list when month changed
 class UpdateCalendarNotesList {
   final List<CalendarNote> payload;
-  UpdateCalendarNotesList({this.payload});
+  final int index;
+  UpdateCalendarNotesList({this.payload, @required this.index});
 }
 
 //add visit to store

@@ -6,6 +6,7 @@ import 'package:mental_health/components/interaction_components/little_button.da
 import 'package:mental_health/models/primaryData.dart';
 import 'package:mental_health/services/allert.dart';
 import 'package:mental_health/services/calendar_services.dart';
+import 'package:mental_health/services/visits_services.dart';
 import 'package:mental_health/views/calendar_day_view.dart';
 import '../const.dart';
 import 'package:mental_health/main.dart';
@@ -55,16 +56,25 @@ class _CalendarDashboardState extends State<CalendarDashboard> {
     }
   }
 
-  getNotesForMonth() {
+  Future getDataForMonth() async {
     try {
       CalendarServices.getNotesForMonth(
           store.state.families[widget.index].familyId,
-          month,
+          month + 1,
           widget.index,
           context);
+      VisitsServices.getVisitsForMonth(
+        month + 1,
+        store.state.families[widget.index].familyId,
+        widget.index,
+      );
     } catch (e) {
       print(e);
     }
+  }
+
+  bool isVisit(int year, int month, int day) {
+    return false;
   }
 
   Widget showPsyPanel() {
@@ -183,7 +193,7 @@ class _CalendarDashboardState extends State<CalendarDashboard> {
                               year--;
                               month = 11;
                             }
-                            getNotesForMonth();
+                            getDataForMonth();
                             days = dayInMonth(month);
                           },
                         );
@@ -200,7 +210,7 @@ class _CalendarDashboardState extends State<CalendarDashboard> {
                               year++;
                               month = 0;
                             }
-                            getNotesForMonth();
+                            getDataForMonth();
                             days = dayInMonth(month);
                           },
                         );
@@ -225,7 +235,7 @@ class _CalendarDashboardState extends State<CalendarDashboard> {
                     day: index + 1,
                     year: year,
                     psyNote: true,
-                    visit: true,
+                    visit: isVisit(year, month + 1, index + 1),
                     onTap: () {
                       if (store.state.families.length != 0) {
                         Navigator.push(
@@ -259,10 +269,3 @@ class _CalendarDashboardState extends State<CalendarDashboard> {
     );
   }
 }
-
-// StoreConnector<PrimaryData, PrimaryData>(
-//                 converter: (store) => store.state,
-//                 builder: (context, state) {
-//                   return Text(state.token.toString());
-//                 },
-//               )ww

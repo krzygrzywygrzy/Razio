@@ -23,6 +23,7 @@ class _LogInPageState extends State<LogInPage> {
 
       //pop the progress indicator
       Navigator.pop(context);
+      Navigator.pushNamed(context, "/dashboard");
     }
   }
 

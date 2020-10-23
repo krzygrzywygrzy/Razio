@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:mental_health/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:mental_health/models/calendarNote.dart';
+import 'package:mental_health/models/date.dart';
 import 'package:mental_health/redux/actions.dart';
 import 'package:mental_health/services/allert.dart';
 import '../const.dart';
@@ -12,7 +13,8 @@ import '../const.dart';
 var token = store.state.token;
 
 class CalendarServices {
-  static Future addNote(var familyId, var message, BuildContext context) async {
+  static Future addNote(
+      var familyId, var message, BuildContext context, int index) async {
     var api = "/api/Calendar/addNote";
     var requestBody =
         jsonEncode({"familyId": '$familyId', "message": '$message'});
@@ -69,10 +71,11 @@ class CalendarServices {
                   json[i],
                 ),
               );
+              cn[i].date = Date.fromJson(json[i]["date"]);
             }
 
             store.dispatch(
-              UpdateCalendarNotesList(payload: cn),
+              UpdateCalendarNotesList(payload: cn, index: index),
             );
 
             print("Pobrano notatki!");

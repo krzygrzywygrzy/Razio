@@ -87,7 +87,6 @@ class LogIn {
           primaryData.families = f;
           StoreProvider.of<PrimaryData>(context)
               .dispatch(LogInState(primaryData));
-          Navigator.pushNamed(context, '/dashboard');
         } else {
           print(response.statusCode);
           print(response.body);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mental_health/components/cards/colored_card.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mental_health/components/interaction_components/text_area.dart';
 import 'package:mental_health/const.dart';
 import 'package:mental_health/main.dart';
@@ -7,6 +7,7 @@ import 'package:mental_health/models/calendarNote.dart';
 import 'package:mental_health/models/date.dart';
 import 'package:mental_health/redux/actions.dart';
 import 'package:mental_health/services/calendar_services.dart';
+import 'package:mental_health/main.dart';
 
 class DayView extends StatefulWidget {
   DayView({this.day, this.month, this.year, this.index});
@@ -59,9 +60,11 @@ class _DayViewState extends State<DayView> {
     if (canAddNote(store.state.userInfo.role)) {
       try {
         CalendarServices.addNote(
-            store.state.families[widget.index].familyId,
-            store.state.userInfo.role == USER_ROLE ? message : psyMessage,
-            context);
+          store.state.families[widget.index].familyId,
+          store.state.userInfo.role == USER_ROLE ? message : psyMessage,
+          context,
+          widget.index,
+        );
         setState(() {
           store.dispatch(
             AddNoteInCallendar(
