@@ -91,14 +91,16 @@ class _FamiliesListState extends State<FamiliesList> {
                           );
                         } else {
                           return EmptyFamilyLayout(
-                              code: state.families[index].invitationCode);
+                            code: state.families[index].invitationCode,
+                            famIndex: index,
+                          );
                         }
                       },
                     ),
                   );
                 } else {
                   return Container(
-                    child: Text("Nie masz jeszcze pacjentów"),
+                    child: Text("Nie masz jeszcze podopiecznych"),
                   );
                 }
               },

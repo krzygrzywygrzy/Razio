@@ -12,15 +12,15 @@ import 'package:mental_health/main.dart';
 import "package:mental_health/components/interaction_components/bottom_sheet.dart";
 import 'avatar.dart';
 
-class UserDashboard extends StatefulWidget {
-  UserDashboard({this.index});
+class CalendarDashboard extends StatefulWidget {
+  CalendarDashboard({this.index});
   final int index;
 
   @override
-  _UserDashboardState createState() => _UserDashboardState();
+  _CalendarDashboardState createState() => _CalendarDashboardState();
 }
 
-class _UserDashboardState extends State<UserDashboard> {
+class _CalendarDashboardState extends State<CalendarDashboard> {
   int month = 0;
   int days;
   int year;
@@ -64,6 +64,86 @@ class _UserDashboardState extends State<UserDashboard> {
           context);
     } catch (e) {
       print(e);
+    }
+  }
+
+  Widget showPsyPanel() {
+    if (store.state.userInfo.role == USER_ROLE) {
+      return ColoredCard(
+        onTap: () {
+          if (store.state.families.length != 1) {
+            ShowBottomSheet.bottomSheetAddFamily(context);
+          }
+        },
+        child: StoreConnector<PrimaryData, PrimaryData>(
+          converter: (store) => store.state,
+          builder: (context, state) {
+            if (store.state.families.length != 0) {
+              return Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Avatar(
+                        size: 60,
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            "Twój psycholog:",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            store
+                                .state.families[widget.index].psychologistNames,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            } else {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Nie jesteś jeszcze połączony ze specjalistą!!!",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          LittleButton(
+                            label: "Dodaj",
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+          },
+        ),
+      );
+    } else {
+      return Container();
     }
   }
 
@@ -155,7 +235,7 @@ class _UserDashboardState extends State<UserDashboard> {
                               day: index + 1,
                               month: month,
                               year: year,
-                              index: 0,
+                              index: widget.index,
                             ),
                           ),
                         );
@@ -173,83 +253,7 @@ class _UserDashboardState extends State<UserDashboard> {
           SizedBox(
             height: 8,
           ),
-          ColoredCard(
-            onTap: () {
-              if (store.state.families.length != 1) {
-                ShowBottomSheet.bottomSheetAddFamily(context);
-              }
-            },
-            child: StoreConnector<PrimaryData, PrimaryData>(
-              converter: (store) => store.state,
-              builder: (context, state) {
-                if (store.state.userInfo.role == USER_ROLE) {
-                  if (store.state.families.length != 0) {
-                    return Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Avatar(
-                              size: 60,
-                            ),
-                            Column(
-                              children: [
-                                Text(
-                                  "Twój psycholog:",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Text(
-                                  store.state.families[widget.index]
-                                      .psychologistNames,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  } else {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Nie jesteś jeszcze połączony ze specjalistą!!!",
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 2,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                LittleButton(
-                                  label: "Dodaj",
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-                } else {
-                  return Container();
-                }
-              },
-            ),
-          ),
+          showPsyPanel(),
         ],
       ),
     );

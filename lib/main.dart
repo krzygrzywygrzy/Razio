@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mental_health/models/primaryData.dart';
 import 'package:mental_health/models/userInfo.dart';
 import 'package:mental_health/redux/reducers.dart';
@@ -37,6 +38,10 @@ class MyApp extends StatelessWidget {
     return StoreProvider<PrimaryData>(
       store: store,
       child: MaterialApp(
+        localizationsDelegates: [GlobalMaterialLocalizations.delegate],
+        supportedLocales: [
+          const Locale("pl"),
+        ],
         debugShowCheckedModeBanner: false,
         title: 'Razio',
         theme: ThemeData(

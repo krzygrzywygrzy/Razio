@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:mental_health/models/calendarNote.dart';
 import 'package:mental_health/models/family.dart';
 import 'package:mental_health/models/primaryData.dart';
 import 'package:mental_health/models/privateNote.dart';
+import 'package:mental_health/models/visits.dart';
 
 //log in
 class LogInState {
@@ -39,11 +41,31 @@ class EditPrivateNote {
 //add note to callendar
 class AddNoteInCallendar {
   final CalendarNote payload;
-  AddNoteInCallendar({this.payload});
+  final int index;
+  AddNoteInCallendar({
+    this.payload,
+    @required this.index,
+  });
 }
 
 // update notes list when month changed
 class UpdateCalendarNotesList {
   final List<CalendarNote> payload;
   UpdateCalendarNotesList({this.payload});
+}
+
+//add visit to store
+class AddVisit {
+  final Visit payload;
+  final int index;
+  AddVisit({
+    this.payload,
+    @required this.index,
+  });
+}
+
+class UpdateVisitList {
+  final List<Visit> payload;
+  final int index;
+  UpdateVisitList({this.payload, this.index});
 }

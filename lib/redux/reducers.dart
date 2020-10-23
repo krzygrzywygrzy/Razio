@@ -16,8 +16,11 @@ PrimaryData reducer(PrimaryData prevState, dynamic action) {
     newState.privateNotes[action.index].message = action.message;
   }
   if (action is AddNoteInCallendar) {
-    print(action.payload.message);
-    newState.families[0].calendarNotes.add(action.payload);
+    newState.families[action.index].calendarNotes.add(action.payload);
   }
+  if (action is AddVisit) {
+    newState.families[action.index].visits.add(action.payload);
+  }
+
   return newState;
 }

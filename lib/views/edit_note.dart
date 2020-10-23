@@ -33,7 +33,7 @@ class _EditNoteState extends State<EditNote> {
                   padding: const EdgeInsets.all(24),
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(12),
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(

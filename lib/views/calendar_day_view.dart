@@ -54,6 +54,42 @@ class _DayViewState extends State<DayView> {
       return false;
   }
 
+  addNote() {
+    print("Dodawanie notatki");
+    if (canAddNote(store.state.userInfo.role)) {
+      try {
+        CalendarServices.addNote(
+            store.state.families[widget.index].familyId,
+            store.state.userInfo.role == USER_ROLE ? message : psyMessage,
+            context);
+        setState(() {
+          store.dispatch(
+            AddNoteInCallendar(
+              index: widget.index,
+              payload: CalendarNote(
+                userId: store.state.userInfo.id,
+                message: store.state.userInfo.role == USER_ROLE
+                    ? message
+                    : psyMessage,
+                userRole: store.state.userInfo.role,
+                date: Date(
+                  day: widget.day,
+                  month: widget.month + 1,
+                  year: widget.year,
+                  minute: DateTime.now().minute,
+                  hour: DateTime.now().hour,
+                ),
+              ),
+            ),
+          );
+        });
+        Navigator.pop(context);
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,6 +147,9 @@ class _DayViewState extends State<DayView> {
                 onChanged: (value) {
                   message = value;
                 },
+                saveButtonAction: () {
+                  addNote();
+                },
               ),
               TextArea(
                 message: psyMessage,
@@ -119,6 +158,9 @@ class _DayViewState extends State<DayView> {
                 enabled: canAddNote(PSY_ROLE),
                 onChanged: (value) {
                   psyMessage = value;
+                },
+                saveButtonAction: () {
+                  addNote();
                 },
               ),
               // Padding(
@@ -162,32 +204,3 @@ class _DayViewState extends State<DayView> {
     );
   }
 }
-
-// if (canAddNote()) {
-//   try {
-//     CalendarServices.addNote(
-//         store.state.families[widget.index]
-//             .familyId,
-//         message,
-//         context);
-//     setState(() {
-//       store.dispatch(
-//         AddNoteInCallendar(
-//           payload: CalendarNote(
-//             userId: store.state.userInfo.id,
-//             message: message,
-//             userRole: store.state.userInfo.role,
-//             date: Date(
-//               day: widget.day,
-//               month: widget.month + 1,
-//               year: widget.year,
-//               minute: DateTime.now().minute,
-//               hour: DateTime.now().hour,
-//             ),
-//           ),
-//         ),
-//       );
-//     });
-//     Navigator.pop(context);
-//   } catch (e) {}
-// }

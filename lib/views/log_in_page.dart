@@ -1,10 +1,8 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mental_health/components/interaction_components/button.dart';
 import 'package:mental_health/components/interaction_components/input_field.dart';
-import 'package:mental_health/models/primaryData.dart';
-import 'package:mental_health/redux/actions.dart';
+import 'package:mental_health/services/allert.dart';
 import 'package:mental_health/services/log_in.dart';
 
 class LogInPage extends StatefulWidget {
@@ -19,16 +17,12 @@ class _LogInPageState extends State<LogInPage> {
 
   Future logIn() async {
     if (password != "" && EmailValidator.validate(email) == true) {
-      try {
-        // get data from server
-        PrimaryData pd = await LogIn.logIn(email, password, context);
+      waitAllert(context);
+      // get data from server
+      await LogIn.logIn(email, password, context);
 
-        //add to store
-        StoreProvider.of<PrimaryData>(context).dispatch(LogInState(pd));
-        Navigator.pushNamed(context, '/dashboard');
-      } catch (e) {
-        // print("Error:" + e);
-      }
+      //pop the progress indicator
+      Navigator.pop(context);
     }
   }
 
@@ -64,13 +58,23 @@ class _LogInPageState extends State<LogInPage> {
                         height: 150,
                       ),
                     ),
-                    Text(
-                      "Razio",
-                      style: TextStyle(
-                          letterSpacing: 1,
-                          fontSize: 40,
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.w300),
+                    RichText(
+                      text: TextSpan(
+                        text: "Razjo",
+                        style: TextStyle(
+                            letterSpacing: 1,
+                            fontSize: 40,
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.w300),
+                        children: [
+                          TextSpan(
+                            text: "alfa",
+                            style: TextStyle(
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: 20,
@@ -124,7 +128,6 @@ class _LogInPageState extends State<LogInPage> {
                       label: "Zaloguj",
                       toDo: () {
                         logIn();
-                        //TODO: show spinner
                       },
                     ),
                     SizedBox(

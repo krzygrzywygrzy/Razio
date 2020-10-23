@@ -7,10 +7,12 @@ class TextArea extends StatelessWidget {
     @required this.enabled,
     this.flex,
     this.hint,
+    this.saveButtonAction,
   });
 
   final String message;
   final Function onChanged;
+  final Function saveButtonAction;
   final bool enabled;
   final int flex;
   final String hint;
@@ -30,7 +32,7 @@ class TextArea extends StatelessWidget {
         padding: const EdgeInsets.all(24),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(12),
             color: Colors.white,
             boxShadow: [
               BoxShadow(
@@ -62,7 +64,9 @@ class TextArea extends StatelessWidget {
                 bottom: 24,
                 right: 24,
                 child: GestureDetector(
-                  onTap: () async {},
+                  onTap: () async {
+                    saveButtonAction();
+                  },
                   child: Text(hideSaveButton()),
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -10,14 +11,14 @@ import 'package:mental_health/models/primaryData.dart';
 import 'package:mental_health/models/privateNote.dart';
 import 'package:mental_health/models/userInfo.dart';
 import 'package:mental_health/models/visits.dart';
+import 'package:mental_health/redux/actions.dart';
 import 'package:mental_health/services/allert.dart';
 
 class LogIn {
-  static Future<dynamic> logIn(
-      var email, var password, BuildContext context) async {
+  static Future logIn(var email, var password, BuildContext context) async {
     var api = "/api/User/login";
     var requestBody = jsonEncode({"email": '$email', "password": '$password'});
-    var data;
+
     print("Logowanie....");
     try {
       await http
@@ -28,8 +29,6 @@ class LogIn {
       )
           .then((var response) {
         if (response.statusCode == 200) {
-          // print(response.body);
-          data = response.body;
           PrimaryData primaryData;
           var json = jsonDecode(response.body);
           primaryData = new PrimaryData.fromJson(json);
@@ -71,30 +70,33 @@ class LogIn {
 
             List<Visit> vs = [];
             if (json["families"][i]["visits"].length != 0) {
-              for (int k = 0; k <= json["families"][i]["visits"].length; k++) {
+              for (int k = 0;
+                  k <= json["families"][i]["visits"].length - 1;
+                  k++) {
                 vs.add(Visit.fromJson(json["families"][i]["visits"][k]));
-                Date date = Date.fromJson(
-                    json["families"][i]["visits"]["creationDate"]);
+                Date date =
+                    Date.fromJson(json["families"][i]["visits"][k]["date"]);
                 vs[i].date = date;
               }
             }
+
             fam.calendarNotes = cn;
             fam.visits = vs;
             f.add(fam);
           }
           primaryData.families = f;
-
-          data = primaryData;
+          StoreProvider.of<PrimaryData>(context)
+              .dispatch(LogInState(primaryData));
+          Navigator.pushNamed(context, '/dashboard');
         } else {
-          //if error return statusCode
-          data = response.statusCode.toString();
+          print(response.statusCode);
+          print(response.body);
+          //Navigator.pop(context); TODO: close spinner when allert shown
           allert("Coś poszło nie tak", context);
         }
       });
     } catch (e) {
-      print("Error: " + e);
+      print("Error: $e");
     }
-
-    return data;
   }
 }

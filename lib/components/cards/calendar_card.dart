@@ -71,7 +71,7 @@ class CalendarCard extends StatelessWidget {
         ),
         height: 230,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(12),
           color: Colors.white,
           boxShadow: [
             BoxShadow(

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mental_health/components/cards/colored_card.dart';
+import 'package:mental_health/components/interaction_components/bottom_sheet.dart';
 import 'package:mental_health/components/interaction_components/little_button.dart';
 
 class EmptyFamilyLayout extends StatelessWidget {
-  EmptyFamilyLayout({this.code});
+  EmptyFamilyLayout({@required this.code, @required this.famIndex});
   final String code;
+  final int famIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class EmptyFamilyLayout extends StatelessWidget {
               LittleButton(
                 label: "wyślij",
                 onTap: () {
-                  //TODO:
+                  ShowBottomSheet.bottomSheetEmail(context, famIndex);
                 },
               ),
             ],
