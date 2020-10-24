@@ -48,19 +48,22 @@ class _DayViewState extends State<DayView> {
     }
   }
 
+  //get notes for user nad psy
   getData() {
     if (store.state.families[widget.index].calendarNotes != null) {
-      store.state.families[widget.index].calendarNotes.forEach((element) {
-        if (widget.year == element.date.year &&
-            widget.month + 1 == element.date.month &&
-            widget.day == element.date.day) {
-          if (element.userRole == USER_ROLE) {
-            message = element.message;
-          } else if (element.userRole == PSY_ROLE) {
-            psyMessage = element.message;
+      store.state.families[widget.index].calendarNotes.forEach(
+        (element) {
+          if (widget.year == element.date.year &&
+              widget.month + 1 == element.date.month &&
+              widget.day == element.date.day) {
+            if (element.userRole == USER_ROLE) {
+              message = element.message;
+            } else if (element.userRole == PSY_ROLE) {
+              psyMessage = element.message;
+            }
           }
-        }
-      });
+        },
+      );
     }
   }
 
@@ -184,7 +187,9 @@ class _DayViewState extends State<DayView> {
                   TextArea(
                     message: message,
                     flex: 0.56,
-                    hint: "twoja notatka",
+                    hint: store.state.userInfo.role == USER_ROLE
+                        ? "twoja notatka"
+                        : "twój podobpieczny jeszcze nic nie napisał",
                     enabled: canAddNote(USER_ROLE),
                     onChanged: (value) {
                       message = value;
@@ -196,7 +201,9 @@ class _DayViewState extends State<DayView> {
                   TextArea(
                     message: psyMessage,
                     flex: 0.4,
-                    hint: "twój doktor jeszcze nic nie napisał",
+                    hint: store.state.userInfo.role == PSY_ROLE
+                        ? "twoja notatka"
+                        : "twój lekarz jeszcze nic nie napisał",
                     enabled: canAddNote(PSY_ROLE),
                     onChanged: (value) {
                       psyMessage = value;

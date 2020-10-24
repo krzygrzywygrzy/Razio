@@ -13,6 +13,8 @@ import '../const.dart';
 var token = store.state.token;
 
 class CalendarServices {
+  //add note to the callendar
+  //TODO: when api is updated, change to send date
   static Future addNote(
       var familyId, var message, BuildContext context, int index) async {
     var api = "/api/Calendar/addNote";
@@ -43,6 +45,7 @@ class CalendarServices {
     }
   }
 
+  //update notes when month in calendar is changed
   static Future getNotesForMonth(
       var familyId, var month, int index, BuildContext context) async {
     var api = "/api/Calendar/getNotesForMonth";
@@ -75,7 +78,7 @@ class CalendarServices {
               UpdateCalendarNotesList(payload: cn, index: index),
             );
 
-            print("Pobrano notatki!");
+            print("Notes downloaded!");
           }
         } else {
           allert("Wystąpił błąd w pobieraniu notatek!", context);

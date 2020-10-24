@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:mental_health/main.dart';
 import 'package:mental_health/models/date.dart';
@@ -55,19 +56,15 @@ class VisitsServices {
     }
   }
 
-  static Future getVisitsForMonth(var month, var famId, int index) async {
+  static Future getVisitsForMonth(
+      var month, var famId, int index, context) async {
     var token = store.state.token;
     var api = '/api/Calendar/getVisitsForMonth';
     var headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'Content-Type': 'application/json',
     };
-    var requestBody = jsonEncode(
-      {
-        "month": '$month',
-        "familyId": '$famId',
-      },
-    );
+
     try {
       http
           .get(
@@ -82,10 +79,15 @@ class VisitsServices {
             for (int i = 0; i <= json.length - 1; i++) {
               vs.add(json[i]);
               vs[i].date = Date.fromJson(json[i]["date"]);
+              print(vs[i].date.day);
             }
+
             store.dispatch(
               UpdateVisitList(payload: vs, index: index),
             );
+            print("visits updated");
+          } else {
+            allert("Nie udało się pobrać listy wizyt!", context);
           }
         },
       );

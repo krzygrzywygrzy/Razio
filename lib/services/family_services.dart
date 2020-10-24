@@ -10,7 +10,7 @@ import 'package:mental_health/redux/actions.dart';
 import 'package:mental_health/services/allert.dart';
 
 class FamilyServices {
-  static Future add(String name, BuildContext context) async {
+  static Future add(String name, BuildContext context) {
     var token = store.state.token;
     var api = '/api/Family/create';
     var requestBody = jsonEncode({"familyName": '$name'});
@@ -38,7 +38,7 @@ class FamilyServices {
     }
   }
 
-  static Future join(var code, BuildContext context) async {
+  static Future join(var code, BuildContext context) {
     var token = store.state.token;
     var api = '/api/Family/join';
     var requestBody = jsonEncode({"invitationCode": '$code'});
@@ -62,6 +62,33 @@ class FamilyServices {
           store.dispatch(AddFamily(fam));
         } else {
           allert("Zły kod lub jesteś już w rodzinie", context);
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static Future<bool> delete(var famId, context) {
+    var token = store.state.token;
+    var api = '/api/Family/delete';
+    var headers = {
+      HttpHeaders.authorizationHeader: "Bearer $token",
+      'Content-Type': 'application/json',
+    };
+    try {
+      http
+          .delete(
+        Uri.encodeFull("$URL" + "$api/$famId/"),
+        headers: headers,
+      )
+          .then((response) {
+        if (response.statusCode == 200) {
+          return true;
+        } else {
+          var json = jsonDecode(response.body);
+          allert(json["error"], context);
+          return false;
         }
       });
     } catch (e) {

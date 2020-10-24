@@ -61,14 +61,16 @@ class _CalendarDashboardState extends State<CalendarDashboard> {
   Future getDataForMonth() async {
     try {
       CalendarServices.getNotesForMonth(
-          store.state.families[widget.index].familyId,
-          month + 1,
-          widget.index,
-          context);
+        store.state.families[widget.index].familyId,
+        month + 1,
+        widget.index,
+        context,
+      );
       VisitsServices.getVisitsForMonth(
         month + 1,
         store.state.families[widget.index].familyId,
         widget.index,
+        context,
       );
     } catch (e) {
       print(e);
@@ -128,41 +130,38 @@ class _CalendarDashboardState extends State<CalendarDashboard> {
           converter: (store) => store.state,
           builder: (context, state) {
             if (store.state.families.length != 0) {
-              return Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Avatar(
-                        size: 60,
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            "Twój psycholog:",
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Avatar(
+                      size: 60,
+                    ),
+                    Column(
+                      children: [
+                        Text(
+                          "Twój psycholog:",
+                          style: TextStyle(
+                            color: Colors.white,
                           ),
-                          Text(
-                            store
-                                .state.families[widget.index].psychologistNames,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                            ),
+                        ),
+                        Text(
+                          store.state.families[widget.index].psychologistNames,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               );
             } else {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
                       "Nie jesteś jeszcze połączony ze specjalistą!!!",

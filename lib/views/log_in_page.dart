@@ -97,7 +97,9 @@ class _LogInPageState extends State<LogInPage> {
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            //TODO: implement
+                          },
                           child: RichText(
                             text: TextSpan(
                               text: "Zapomniałeś ",
