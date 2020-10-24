@@ -76,7 +76,7 @@ class LogIn {
                 vs.add(Visit.fromJson(json["families"][i]["visits"][k]));
                 Date date =
                     Date.fromJson(json["families"][i]["visits"][k]["date"]);
-                vs[i].date = date;
+                vs[k].date = date;
               }
             }
 
@@ -85,13 +85,15 @@ class LogIn {
             f.add(fam);
           }
           primaryData.families = f;
+          //add data to redux store
           StoreProvider.of<PrimaryData>(context)
               .dispatch(LogInState(primaryData));
+          //go to dashboard
+          Navigator.pushNamed(context, "/dashboard");
         } else {
           print(response.statusCode);
-          print(response.body);
-          //Navigator.pop(context); TODO: close spinner when allert shown
-          allert("Coś poszło nie tak", context);
+          var json = jsonDecode(response.body);
+          allert(json["errors"], context);
         }
       });
     } catch (e) {

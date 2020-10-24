@@ -17,13 +17,7 @@ class _LogInPageState extends State<LogInPage> {
 
   Future logIn() async {
     if (password != "" && EmailValidator.validate(email) == true) {
-      waitAllert(context);
-      // get data from server
       await LogIn.logIn(email, password, context);
-
-      //pop the progress indicator
-      Navigator.pop(context);
-      Navigator.pushNamed(context, "/dashboard");
     }
   }
 

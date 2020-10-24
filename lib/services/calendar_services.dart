@@ -46,18 +46,15 @@ class CalendarServices {
   static Future getNotesForMonth(
       var familyId, var month, int index, BuildContext context) async {
     var api = "/api/Calendar/getNotesForMonth";
-    var requestBody = jsonEncode(
-      {"familyId": '$familyId', "month": '$month'},
-    );
+
     var headers = {
       HttpHeaders.authorizationHeader: "Bearer $token",
       'Content-Type': 'application/json',
     };
     try {
       http
-          .post(
-        Uri.encodeFull("$URL" + "$api"),
-        body: requestBody,
+          .get(
+        Uri.encodeFull("$URL" + "$api/$familyId/$month/"),
         headers: headers,
       )
           .then((var response) {

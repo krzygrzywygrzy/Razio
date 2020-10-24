@@ -70,9 +70,8 @@ class VisitsServices {
     );
     try {
       http
-          .post(
-        Uri.encodeFull("$URL" + "$api"),
-        body: requestBody,
+          .get(
+        Uri.encodeFull("$URL" + "$api/$famId/$month/"),
         headers: headers,
       )
           .then(
