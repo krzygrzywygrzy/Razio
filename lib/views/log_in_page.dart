@@ -2,8 +2,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:mental_health/components/interaction_components/button.dart';
 import 'package:mental_health/components/interaction_components/input_field.dart';
-import 'package:mental_health/services/allert.dart';
 import 'package:mental_health/services/log_in.dart';
+import 'package:screen_loader/screen_loader.dart';
 
 class LogInPage extends StatefulWidget {
   LogInPage({Key key}) : super(key: key);
@@ -12,7 +12,7 @@ class LogInPage extends StatefulWidget {
   _LogInPageState createState() => _LogInPageState();
 }
 
-class _LogInPageState extends State<LogInPage> {
+class _LogInPageState extends State<LogInPage> with ScreenLoader<LogInPage> {
   String email = "", password = "";
 
   Future logIn() async {
@@ -22,7 +22,22 @@ class _LogInPageState extends State<LogInPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget loader() {
+    return Center(
+      child: SizedBox(
+        height: 60,
+        width: 60,
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation(
+            Theme.of(context).primaryColor,
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget screen(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -123,8 +138,8 @@ class _LogInPageState extends State<LogInPage> {
                     ),
                     Button(
                       label: "Zaloguj",
-                      toDo: () {
-                        logIn();
+                      toDo: () async {
+                        await this.performFuture(logIn);
                       },
                     ),
                     SizedBox(

@@ -9,6 +9,8 @@ import 'package:mental_health/services/allert.dart';
 import 'package:mental_health/services/log_in.dart';
 import 'package:mental_health/services/register.dart';
 import 'package:mental_health/const.dart';
+import 'package:screen_loader/screen_loader.dart';
+import 'package:screen_loader/screen_loader.dart';
 
 class RegisterPage extends StatefulWidget {
   RegisterPage({Key key}) : super(key: key);
@@ -17,7 +19,8 @@ class RegisterPage extends StatefulWidget {
   _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _RegisterPageState extends State<RegisterPage>
+    with ScreenLoader<RegisterPage> {
   String name = "", surname = "", email = "", password = "", role;
   int radioValue = 1;
 
@@ -44,7 +47,6 @@ class _RegisterPageState extends State<RegisterPage> {
           allert("Coś poszło nie tak", context);
         } else {
           allert("Użytkownik o takim adresie e-mail istnieje!", context);
-          print(response);
         }
       } catch (e) {
         print(e);
@@ -53,7 +55,22 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget loader() {
+    return Center(
+      child: SizedBox(
+        height: 60,
+        width: 60,
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation(
+            Theme.of(context).primaryColor,
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget screen(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -165,8 +182,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         horizontal: MediaQuery.of(context).size.width * 0.1),
                     child: Button(
                       label: "Zarejestruj",
-                      toDo: () {
-                        register();
+                      toDo: () async {
+                        await this.performFuture(register);
                       },
                     ),
                   ),
