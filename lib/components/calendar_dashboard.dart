@@ -33,6 +33,7 @@ class _CalendarDashboardState extends State<CalendarDashboard> {
     super.initState();
   }
 
+  //TODO: chceck if there is DataTime funtion for this
   int dayInMonth(int month) {
     switch (month) {
       case 0:
@@ -56,6 +57,7 @@ class _CalendarDashboardState extends State<CalendarDashboard> {
     }
   }
 
+  // get visits list and notes list when month in calendar is changed
   Future getDataForMonth() async {
     try {
       CalendarServices.getNotesForMonth(
@@ -74,6 +76,43 @@ class _CalendarDashboardState extends State<CalendarDashboard> {
   }
 
   bool isVisit(int year, int month, int day) {
+    if (store.state.families[widget.index].visits != null) {
+      for (int i = 0;
+          i <= store.state.families[widget.index].visits.length - 1;
+          i++) {
+        if (store.state.families[widget.index].visits[i].date.day == day + 1 &&
+            store.state.families[widget.index].visits[i].date.month ==
+                month + 1 &&
+            store.state.families[widget.index].visits[i].date.year == year) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    } else
+      return false;
+  }
+
+  //show the PSY note icon
+  //do not add 1 to month and day
+  // ignore: missing_return
+  bool isNote(int year, int month, int day) {
+    if (store.state.families[widget.index].calendarNotes != null) {
+      for (int i = 0;
+          i <= store.state.families[widget.index].calendarNotes.length - 1;
+          i++) {
+        if (store.state.families[widget.index].calendarNotes[i].date.day ==
+                day + 1 &&
+            store.state.families[widget.index].calendarNotes[i].date.month ==
+                month + 1 &&
+            store.state.families[widget.index].calendarNotes[i].date.year ==
+                year) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
     return false;
   }
 
@@ -234,8 +273,8 @@ class _CalendarDashboardState extends State<CalendarDashboard> {
                     month: months[month],
                     day: index + 1,
                     year: year,
-                    psyNote: true,
-                    visit: isVisit(year, month + 1, index + 1),
+                    psyNote: isNote(year, month, index),
+                    visit: isVisit(year, month, index),
                     onTap: () {
                       if (store.state.families.length != 0) {
                         Navigator.push(
