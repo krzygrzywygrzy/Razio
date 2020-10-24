@@ -92,8 +92,8 @@ class LogIn {
           Navigator.pushNamed(context, "/dashboard");
         } else {
           print(response.statusCode);
-          var json = jsonDecode(response.body);
-          allert(json["errors"], context);
+
+          allert("Wystąpił problem", context);
         }
       });
     } catch (e) {

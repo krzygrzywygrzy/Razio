@@ -14,7 +14,7 @@ class TextArea extends StatelessWidget {
   final Function onChanged;
   final Function saveButtonAction;
   final bool enabled;
-  final int flex;
+  final num flex;
   final String hint;
 
   String hideSaveButton() {
@@ -26,8 +26,8 @@ class TextArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: flex,
+    return Container(
+      height: MediaQuery.of(context).size.height * flex,
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Container(

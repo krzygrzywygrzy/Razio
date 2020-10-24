@@ -27,6 +27,27 @@ class _DayViewState extends State<DayView> {
     super.initState();
   }
 
+  //show information about appointment
+  // ignore: missing_return
+  String visitDate() {
+    if (store.state.families[widget.index].visits != null) {
+      for (int i = 0;
+          i <= store.state.families[widget.index].visits.length - 1;
+          i++) {
+        if (store.state.families[widget.index].visits[i].date.day ==
+                widget.day &&
+            store.state.families[widget.index].visits[i].date.month ==
+                widget.month + 1 &&
+            store.state.families[widget.index].visits[i].date.year ==
+                widget.year) {
+          return "- Wizyta o godzinie ${store.state.families[widget.index].visits[i].date.hour}:${store.state.families[widget.index].visits[i].date.minute} !";
+        } else {
+          return " - Brak zaplanowanej wizyty na dziś";
+        }
+      }
+    }
+  }
+
   getData() {
     if (store.state.families[widget.index].calendarNotes != null) {
       store.state.families[widget.index].calendarNotes.forEach((element) {
@@ -99,97 +120,117 @@ class _DayViewState extends State<DayView> {
       backgroundColor: Colors.white,
       body: Container(
         child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: ListView(
             children: [
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 24,
-                          right: 24,
-                          top: 16,
-                        ),
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "${widget.day}",
-                            style: TextStyle(
-                              fontSize: 30,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 24,
+                              right: 24,
+                              top: 16,
+                            ),
+                            child: Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "${widget.day}",
+                                style: TextStyle(
+                                  fontSize: 30,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 0),
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "${months[widget.month]}",
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black54,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 24, vertical: 0),
+                            child: Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "${months[widget.month]}",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black54,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.pending_actions_rounded,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        Text(
+                          visitDate(),
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
+                        ),
+                      ],
+                    ),
+                  ),
+                  TextArea(
+                    message: message,
+                    flex: 0.56,
+                    hint: "twoja notatka",
+                    enabled: canAddNote(USER_ROLE),
+                    onChanged: (value) {
+                      message = value;
+                    },
+                    saveButtonAction: () {
+                      addNote();
+                    },
+                  ),
+                  TextArea(
+                    message: psyMessage,
+                    flex: 0.4,
+                    hint: "twój doktor jeszcze nic nie napisał",
+                    enabled: canAddNote(PSY_ROLE),
+                    onChanged: (value) {
+                      psyMessage = value;
+                    },
+                    saveButtonAction: () {
+                      addNote();
+                    },
+                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(bottom: 16),
+                  //   child: ColoredCard(
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.all(8.0),
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.all(8.0),
+                  //         child: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.center,
+                  //           children: [
+                  //             Icon(
+                  //               Icons.pending_actions_rounded,
+                  //               color: Colors.white,
+                  //             ),
+                  //             Text(
+                  //               " - Nie ma zaplanowanej wizyty na ten dzień",
+                  //               style: TextStyle(color: Colors.white),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
-
-              TextArea(
-                message: message,
-                flex: 2,
-                hint: "twoja notatka",
-                enabled: canAddNote(USER_ROLE),
-                onChanged: (value) {
-                  message = value;
-                },
-                saveButtonAction: () {
-                  addNote();
-                },
-              ),
-              TextArea(
-                message: psyMessage,
-                flex: 1,
-                hint: "twój doktor jeszcze nic nie napisał",
-                enabled: canAddNote(PSY_ROLE),
-                onChanged: (value) {
-                  psyMessage = value;
-                },
-                saveButtonAction: () {
-                  addNote();
-                },
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.only(bottom: 16),
-              //   child: ColoredCard(
-              //     child: Padding(
-              //       padding: const EdgeInsets.all(8.0),
-              //       child: Padding(
-              //         padding: const EdgeInsets.all(8.0),
-              //         child: Row(
-              //           mainAxisAlignment: MainAxisAlignment.center,
-              //           children: [
-              //             Icon(
-              //               Icons.pending_actions_rounded,
-              //               color: Colors.white,
-              //             ),
-              //             Text(
-              //               " - Nie ma zaplanowanej wizyty na ten dzień",
-              //               style: TextStyle(color: Colors.white),
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),
