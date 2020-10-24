@@ -10,7 +10,7 @@ import 'package:mental_health/redux/actions.dart';
 import 'package:mental_health/services/allert.dart';
 
 class FamilyServices {
-  static Future add(String name, BuildContext context) {
+  static Future add(String name, BuildContext context) async {
     var token = store.state.token;
     var api = '/api/Family/create';
     var requestBody = jsonEncode({"familyName": '$name'});
@@ -38,7 +38,7 @@ class FamilyServices {
     }
   }
 
-  static Future join(var code, BuildContext context) {
+  static Future join(var code, BuildContext context) async {
     var token = store.state.token;
     var api = '/api/Family/join';
     var requestBody = jsonEncode({"invitationCode": '$code'});
@@ -69,7 +69,7 @@ class FamilyServices {
     }
   }
 
-  static Future<bool> delete(var famId, context) {
+  static Future<bool> delete(var famId, context) async {
     var token = store.state.token;
     var api = '/api/Family/delete';
     var headers = {
@@ -84,6 +84,7 @@ class FamilyServices {
       )
           .then((response) {
         if (response.statusCode == 200) {
+          print("Deleted!");
           return true;
         } else {
           var json = jsonDecode(response.body);

@@ -70,3 +70,8 @@ class UpdateVisitList {
   final int index;
   UpdateVisitList({this.payload, this.index});
 }
+
+class DeleteFamily {
+  final int payload;
+  DeleteFamily({this.payload});
+}

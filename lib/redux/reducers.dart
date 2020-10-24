@@ -27,6 +27,9 @@ PrimaryData reducer(PrimaryData prevState, dynamic action) {
   if (action is UpdateVisitList) {
     newState.families[action.index].visits = action.payload;
   }
+  if (action is DeleteFamily) {
+    newState.families.removeAt(action.payload);
+  }
 
   return newState;
 }

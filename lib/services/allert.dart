@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//TODO: restyle AlertDialog
 allert(String message, BuildContext context) {
   showDialog(
       context: context,
@@ -27,7 +28,7 @@ allert(String message, BuildContext context) {
       });
 }
 
-waitAllert(BuildContext context) {
+waitIndicator(BuildContext context) {
   showDialog(
     context: context,
     builder: (context) => Center(
