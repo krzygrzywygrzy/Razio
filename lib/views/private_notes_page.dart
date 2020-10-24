@@ -57,7 +57,7 @@ class _PrivateNotesPageState extends State<PrivateNotesPage> {
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(30),
+                                borderRadius: BorderRadius.circular(15),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Color(0xffc9c9c9),

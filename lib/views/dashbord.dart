@@ -52,7 +52,7 @@ class _DashbordState extends State<Dashbord> {
                       height: 50,
                       child: CircleAvatar(
                         backgroundImage: NetworkImage(
-                            "https://samequizy.pl/wp-content/uploads/2016/03/filing_images_27b2790a29f1.jpg"),
+                            "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg"),
                       ),
                     ),
                   ],

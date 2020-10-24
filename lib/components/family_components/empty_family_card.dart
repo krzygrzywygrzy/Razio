@@ -49,7 +49,7 @@ class _EmptyFamilyLayoutState extends State<EmptyFamilyLayout> {
                         store.state.families[widget.famIndex].familyId,
                         context,
                       );
-                      //TODO: fix this to wait for the response
+                      //TODO: fix this to wait for the
                       setState(() {
                         store.dispatch(
                           DeleteFamily(payload: widget.famIndex),
