@@ -8,6 +8,7 @@ import 'package:mental_health/services/allert.dart';
 import 'package:mental_health/services/calendar_services.dart';
 import 'package:mental_health/services/visits_services.dart';
 import 'package:mental_health/views/calendar_day_view.dart';
+import 'package:screen_loader/screen_loader.dart';
 import '../const.dart';
 import 'package:mental_health/main.dart';
 import "package:mental_health/components/interaction_components/bottom_sheet.dart";
@@ -21,7 +22,8 @@ class CalendarDashboard extends StatefulWidget {
   _CalendarDashboardState createState() => _CalendarDashboardState();
 }
 
-class _CalendarDashboardState extends State<CalendarDashboard> {
+class _CalendarDashboardState extends State<CalendarDashboard>
+    with ScreenLoader<CalendarDashboard> {
   int month = 0;
   int days;
   int year;
@@ -31,6 +33,21 @@ class _CalendarDashboardState extends State<CalendarDashboard> {
     year = DateTime.now().year;
     days = dayInMonth(month);
     super.initState();
+  }
+
+  @override
+  Widget loader() {
+    return Center(
+      child: SizedBox(
+        height: 60,
+        width: 60,
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation(
+            Theme.of(context).primaryColor,
+          ),
+        ),
+      ),
+    );
   }
 
   //TODO: chceck if there is DataTime funtion for this
@@ -60,13 +77,13 @@ class _CalendarDashboardState extends State<CalendarDashboard> {
   // get visits list and notes list when month in calendar is changed
   Future getDataForMonth() async {
     try {
-      CalendarServices.getNotesForMonth(
+      await CalendarServices.getNotesForMonth(
         store.state.families[widget.index].familyId,
         month + 1,
         widget.index,
         context,
       );
-      VisitsServices.getVisitsForMonth(
+      await VisitsServices.getVisitsForMonth(
         month + 1,
         store.state.families[widget.index].familyId,
         widget.index,
@@ -77,6 +94,8 @@ class _CalendarDashboardState extends State<CalendarDashboard> {
     }
   }
 
+  //show appointment icon in calendar card
+  // ignore: missing_return
   bool isVisit(int year, int month, int day) {
     if (store.state.families[widget.index].visits != null) {
       for (int i = 0;
@@ -196,7 +215,7 @@ class _CalendarDashboardState extends State<CalendarDashboard> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget screen(BuildContext context) {
     return Container(
       child: Column(
         children: [
@@ -222,16 +241,16 @@ class _CalendarDashboardState extends State<CalendarDashboard> {
                 child: Row(
                   children: [
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         setState(
-                          () {
+                          () async {
                             if (month != 0) {
                               month--;
                             } else {
                               year--;
                               month = 11;
                             }
-                            getDataForMonth();
+                            await this.performFuture(getDataForMonth);
                             days = dayInMonth(month);
                           },
                         );
@@ -239,16 +258,16 @@ class _CalendarDashboardState extends State<CalendarDashboard> {
                       child: Icon(Icons.arrow_back_ios),
                     ),
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         setState(
-                          () {
+                          () async {
                             if (month != 11) {
                               month++;
                             } else {
                               year++;
                               month = 0;
                             }
-                            getDataForMonth();
+                            await performFuture(getDataForMonth);
                             days = dayInMonth(month);
                           },
                         );

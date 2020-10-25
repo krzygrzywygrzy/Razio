@@ -46,24 +46,43 @@ class _DayViewState extends State<DayView> {
         }
       }
     }
+    return " - Brak zaplanowanej wizyty na dziś";
   }
 
   //get notes for user nad psy
+  //TODO: optimize
   getData() {
     if (store.state.families[widget.index].calendarNotes != null) {
-      store.state.families[widget.index].calendarNotes.forEach(
-        (element) {
-          if (widget.year == element.date.year &&
-              widget.month + 1 == element.date.month &&
-              widget.day == element.date.day) {
-            if (element.userRole == USER_ROLE) {
-              message = element.message;
-            } else if (element.userRole == PSY_ROLE) {
-              psyMessage = element.message;
-            }
-          }
-        },
-      );
+      for (int i = 0;
+          i <= store.state.families[widget.index].calendarNotes.length - 1;
+          i++) {
+        if (widget.year ==
+                store.state.families[widget.index].calendarNotes[i].date.year &&
+            widget.month + 1 ==
+                store
+                    .state.families[widget.index].calendarNotes[i].date.month &&
+            widget.day ==
+                store.state.families[widget.index].calendarNotes[i].date.day) {
+          store.state.families[widget.index].calendarNotes[i].userRole ==
+                  USER_ROLE
+              ? message =
+                  store.state.families[widget.index].calendarNotes[i].message
+              : psyMessage =
+                  store.state.families[widget.index].calendarNotes[i].message;
+        }
+      }
+      //DOESNT WORK AS EXPECTED
+      // store.state.families[widget.index].calendarNotes.forEach(
+      //   (element) {
+      //     if (widget.year == element.date.year &&
+      //         widget.month + 1 == element.date.month &&
+      //         widget.day == element.date.day) {
+      //       element.userRole == USER_ROLE
+      //           ? message = element.message
+      //           : psyMessage = element.message;
+      //     }
+      //   },
+      //);
     }
   }
 
@@ -81,6 +100,7 @@ class _DayViewState extends State<DayView> {
 
   addNote() {
     print("Dodawanie notatki");
+    print(store.state.userInfo.role);
     if (canAddNote(store.state.userInfo.role)) {
       try {
         CalendarServices.addNote(

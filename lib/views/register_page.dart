@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mental_health/components/interaction_components/button.dart';
 import 'package:mental_health/components/interaction_components/input_field.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:mental_health/models/primaryData.dart';
-import 'package:mental_health/redux/actions.dart';
-import 'package:mental_health/services/allert.dart';
-import 'package:mental_health/services/log_in.dart';
 import 'package:mental_health/services/register.dart';
 import 'package:mental_health/const.dart';
-import 'package:screen_loader/screen_loader.dart';
 import 'package:screen_loader/screen_loader.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -35,19 +29,8 @@ class _RegisterPageState extends State<RegisterPage>
         password != "" &&
         EmailValidator.validate(email) == true) {
       try {
-        String response =
-            await Register.register(email, password, name, surname, role);
-        if (response == "200") {
-          PrimaryData pd = await LogIn.logIn(email, password, context);
-          //add to store
-          StoreProvider.of<PrimaryData>(context).dispatch(LogInState(pd));
-          Navigator.pushNamed(context, "/dashboard");
-        } else if (response == "500") {
-          print(response);
-          allert("Coś poszło nie tak", context);
-        } else {
-          allert("Użytkownik o takim adresie e-mail istnieje!", context);
-        }
+        String response = await Register.register(
+            email, password, name, surname, role, context);
       } catch (e) {
         print(e);
       }

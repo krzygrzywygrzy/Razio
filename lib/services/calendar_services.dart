@@ -63,24 +63,24 @@ class CalendarServices {
           .then((var response) {
         if (response.statusCode == 200) {
           var json = jsonDecode(response.body);
-          if (json.length != 0) {
-            List<CalendarNote> cn = [];
-            for (int i = 0; i <= json.length - 1; i++) {
-              cn.add(
-                CalendarNote.fromJson(
-                  json[i],
-                ),
-              );
-              cn[i].date = Date.fromJson(json[i]["date"]);
-            }
 
-            store.dispatch(
-              UpdateCalendarNotesList(payload: cn, index: index),
-            );
+          List<CalendarNote> cn = [];
 
-            print("Notes downloaded!");
+          for (int i = 0; i <= json.length - 1; i++) {
+            cn.add(CalendarNote.fromJson(json[i]));
+
+            cn[i].date = Date.fromJson(json[i]["date"]);
           }
+
+          print(cn);
+
+          store.dispatch(
+            UpdateCalendarNotesList(payload: cn, index: index),
+          );
+
+          print("Notes updated!");
         } else {
+          print(response.statusCode);
           allert("Wystąpił błąd w pobieraniu notatek!", context);
         }
       });

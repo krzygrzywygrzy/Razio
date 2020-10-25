@@ -76,16 +76,17 @@ class VisitsServices {
           if (response.statusCode == 200) {
             var json = jsonDecode(response.body);
             List<Visit> vs = [];
+
             for (int i = 0; i <= json.length - 1; i++) {
-              vs.add(json[i]);
+              vs.add(Visit.fromJson(json[i]));
               vs[i].date = Date.fromJson(json[i]["date"]);
-              print(vs[i].date.day);
             }
+            print(vs);
 
             store.dispatch(
               UpdateVisitList(payload: vs, index: index),
             );
-            print("visits updated");
+            print("Visits updated");
           } else {
             allert("Nie udało się pobrać listy wizyt!", context);
           }

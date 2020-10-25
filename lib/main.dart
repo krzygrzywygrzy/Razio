@@ -11,8 +11,7 @@ import 'package:mental_health/views/register_page.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
-//kuba_zalek88@onet.pl
-
+// redux store
 final store = new Store<PrimaryData>(reducer,
     initialState: PrimaryData(
       token: "",
@@ -43,7 +42,7 @@ class MyApp extends StatelessWidget {
           const Locale("pl"),
         ],
         debugShowCheckedModeBanner: false,
-        title: 'Razio',
+        title: 'Razjo',
         theme: ThemeData(
           textTheme: TextTheme(
             headline1: TextStyle(
