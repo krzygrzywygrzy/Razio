@@ -11,19 +11,17 @@ class CalendarCard extends StatelessWidget {
 
   List<Widget> bottomIcons() {
     List<Widget> list = [];
-    if (visit != null && psyNote != null) {
-      visit == true
-          ? list.add(
-              Icon(
-                Icons.pending_actions_rounded,
-              ),
-            )
-          : print("");
-      psyNote == true
-          ? list.add(
-              Icon(Icons.border_color),
-            )
-          : print("");
+    if (visit != null && visit == true) {
+      list.add(
+        Icon(
+          Icons.pending_actions_rounded,
+        ),
+      );
+    }
+    if (psyNote != null && psyNote == true) {
+      list.add(
+        Icon(Icons.edit_outlined),
+      );
     }
     return list;
   }

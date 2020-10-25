@@ -32,7 +32,7 @@ class FamilyCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "Kliknij by brzejść do szczegółów",
+                      "Kliknij by przejść do szczegółów",
                       style: TextStyle(color: Colors.white),
                     ),
                   ],

@@ -2,23 +2,66 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:mental_health/components/interaction_components/button.dart';
 import 'package:mental_health/components/interaction_components/input_field.dart';
+import 'package:mental_health/models/primaryData.dart';
+import 'package:mental_health/models/userInfo.dart';
+import 'package:mental_health/redux/actions.dart';
 import 'package:mental_health/services/allert.dart';
 import 'package:mental_health/services/family_services.dart';
 import 'package:mental_health/main.dart';
 import 'package:mental_health/services/send_email.dart';
 
 class ShowBottomSheet {
+  static void bottomSheetOptions(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: GestureDetector(
+                onTap: () {
+                  store.dispatch(LogInState(PrimaryData(
+                    token: "",
+                    userInfo: UserInfo(),
+                    families: [],
+                    privateNotes: [],
+                  )));
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/', (Route<dynamic> route) => false);
+                },
+                child: Container(
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Icon(Icons.logout),
+                      ),
+                      Text(
+                        "Wyloguj",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
   static void bottomSheetAddFamily(context) {
     var name = '';
     String hint;
     String title;
     store.state.userInfo.role == "USR"
         ? hint = "podaj kod"
-        : hint = "podaj imię i nazwisko";
+        : hint = "podaj nazwę";
 
     store.state.userInfo.role == "USR"
         ? title = "Dołącz do terapeuty"
-        : title = "Dodaj nowego pacjęta";
+        : title = "Dodaj nowego pacjenta";
 
     showModalBottomSheet(
         context: context,

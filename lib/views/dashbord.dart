@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mental_health/components/cards/colored_card.dart';
 import 'package:mental_health/components/family_components/families_list.dart';
 import 'package:mental_health/components/calendar_dashboard.dart';
+import 'package:mental_health/components/interaction_components/bottom_sheet.dart';
 import 'package:mental_health/main.dart';
 import 'package:mental_health/models/primaryData.dart';
 import 'package:mental_health/const.dart';
@@ -50,9 +51,14 @@ class _DashbordState extends State<Dashbord> {
                     ),
                     Container(
                       height: 50,
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg"),
+                      child: GestureDetector(
+                        onTap: () {
+                          ShowBottomSheet.bottomSheetOptions(context);
+                        },
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg"),
+                        ),
                       ),
                     ),
                   ],

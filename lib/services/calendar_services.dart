@@ -33,7 +33,7 @@ class CalendarServices {
       )
           .then((var response) {
         if (response.statusCode == 200) {
-          print("Notatka dodana");
+          allert("Notatka dodana do bazy!", context);
           return response.body;
         } else {
           allert("Wystąpił błąd przy dodawaniu notatki do bazy!", context);

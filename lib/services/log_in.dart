@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -13,6 +14,7 @@ import 'package:mental_health/models/userInfo.dart';
 import 'package:mental_health/models/visits.dart';
 import 'package:mental_health/redux/actions.dart';
 import 'package:mental_health/services/allert.dart';
+import 'package:mental_health/views/dashbord.dart';
 
 class LogIn {
   static Future logIn(var email, var password, BuildContext context) async {
@@ -89,7 +91,8 @@ class LogIn {
           StoreProvider.of<PrimaryData>(context)
               .dispatch(LogInState(primaryData));
           //go to dashboard
-          Navigator.pushNamed(context, "/dashboard");
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/dashboard', (Route<dynamic> route) => false);
         } else {
           print(response.statusCode);
 

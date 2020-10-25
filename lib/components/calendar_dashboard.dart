@@ -223,6 +223,7 @@ class _CalendarDashboardState extends State<CalendarDashboard>
   }
 
   //TODO: show callendar even when user is not connected to psyhologist
+  //TODO: repair callendar scroll bug
   Widget showCallendar() {
     if (store.state.families.length != 0) {
       return IndexedListView.builder(
