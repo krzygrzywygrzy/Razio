@@ -142,6 +142,7 @@ class _CalendarDashboardState extends State<CalendarDashboard>
     return false;
   }
 
+  //show panel with psyhologist info
   Widget showPsyPanel() {
     if (store.state.userInfo.role == USER_ROLE) {
       return ColoredCard(
@@ -199,8 +200,10 @@ class _CalendarDashboardState extends State<CalendarDashboard>
                         vertical: 2,
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                          //TODO: add loading inditactor when adding
+
                           LittleButton(
                             label: "Dodaj",
                           ),
