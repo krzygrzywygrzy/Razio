@@ -10,7 +10,7 @@ class Register {
   static Future register(var email, var password, var firstName, var surname,
       var role, context) async {
     String data = '';
-    print("działa");
+
     var api = '/api/User/register';
     var requestBody = jsonEncode({
       "email": '$email',
@@ -20,6 +20,7 @@ class Register {
       "role": '$role'
     });
     //TODO: show allerts
+    print("Registering....");
     try {
       await http
           .post(Uri.encodeFull("$URL" + "$api"),
@@ -27,16 +28,14 @@ class Register {
           .then((var response) {
         if (response.statusCode == 200) {
           //message
-          var json = jsonDecode(response.body);
+
           LogIn.logIn(email, password, context);
           //
+        } else if (response.statusCode == 400) {
+          allert("Użytkownik o takim adresie e-mail już ustnieje ", context);
         } else
-          print(response.statusCode);
-        var json = jsonDecode(response.body);
-        allert(json["errors"], context);
+          allert("Coś poszło nie tak", context);
       });
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 }

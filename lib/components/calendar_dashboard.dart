@@ -97,7 +97,8 @@ class _CalendarDashboardState extends State<CalendarDashboard>
   //show appointment icon in calendar card
   // ignore: missing_return
   bool isVisit(int year, int month, int day) {
-    if (store.state.families[widget.index].visits != null) {
+    if (store.state.families[widget.index].visits != null &&
+        widget.index != null) {
       for (int i = 0;
           i <= store.state.families[widget.index].visits.length - 1;
           i++) {
@@ -118,7 +119,8 @@ class _CalendarDashboardState extends State<CalendarDashboard>
   //do not add 1 to month and day
   // ignore: missing_return
   bool isNote(int year, int month, int day) {
-    if (store.state.families[widget.index].calendarNotes != null) {
+    if (store.state.families[widget.index].calendarNotes != null &&
+        widget.index != null) {
       for (int i = 0;
           i <= store.state.families[widget.index].calendarNotes.length - 1;
           i++) {
@@ -214,6 +216,48 @@ class _CalendarDashboardState extends State<CalendarDashboard>
     }
   }
 
+  //TODO: show callendar even when user is not connected to psyhologist
+  Widget showCallendar() {
+    if (store.state.families.length != 0) {
+      return ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: days,
+        itemBuilder: (BuildContext context, int index) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CalendarCard(
+              month: months[month],
+              day: index + 1,
+              year: year,
+              psyNote: isNote(year, month, index),
+              visit: isVisit(year, month, index),
+              onTap: () {
+                if (store.state.families.length != 0) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DayView(
+                        day: index + 1,
+                        month: month,
+                        year: year,
+                        index: widget.index,
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
+          );
+        },
+      );
+    } else {
+      return Center(
+        child:
+            Text("Aby uzyskać dostęp do kalendarza... \npodaj kod psychologa"),
+      );
+    }
+  }
+
   @override
   Widget screen(BuildContext context) {
     return Container(
@@ -281,41 +325,7 @@ class _CalendarDashboardState extends State<CalendarDashboard>
           ),
           Container(
             height: 240,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: days,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CalendarCard(
-                    month: months[month],
-                    day: index + 1,
-                    year: year,
-                    psyNote: isNote(year, month, index),
-                    visit: isVisit(year, month, index),
-                    onTap: () {
-                      if (store.state.families.length != 0) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DayView(
-                              day: index + 1,
-                              month: month,
-                              year: year,
-                              index: widget.index,
-                            ),
-                          ),
-                        );
-                      } else {
-                        allert(
-                            "Musisz być połączony ze specjalistą by móc dodawać wpisy!!!",
-                            context);
-                      }
-                    },
-                  ),
-                );
-              },
-            ),
+            child: showCallendar(),
           ),
           SizedBox(
             height: 8,

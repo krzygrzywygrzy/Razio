@@ -98,88 +98,81 @@ class _PsyFamilyViewState extends State<PsyFamilyView> {
       body: Container(
         decoration: kGradientBg,
         child: SafeArea(
-          child: ListView(
-            children: [
-              Container(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 24,
-                        bottom: 8,
-                      ),
-                      child: Flexible(
-                        child: Avatar(
-                          size: 100,
+          child: Container(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 24,
+                    bottom: 8,
+                  ),
+                  child: Avatar(
+                    size: 100,
+                  ),
+                ),
+                StoreConnector<PrimaryData, PrimaryData>(
+                    builder: (context, state) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 8,
+                        ),
+                        child: Text(
+                          state.families[widget.index].userNames,
+                          style: TextStyle(
+                            fontSize: 25,
+                          ),
+                        ),
+                      );
+                    },
+                    converter: (store) => store.state),
+                CalendarDashboard(
+                  index: widget.index,
+                ),
+                ColoredCard(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Ustal wizytę",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
                       ),
-                    ),
-                    StoreConnector<PrimaryData, PrimaryData>(
-                        builder: (context, state) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 8,
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            LittleButton(
+                              onTap: () {
+                                pickDate();
+                              },
+                              label:
+                                  "Data: ${appointmentDate.day}/${appointmentDate.month}/${appointmentDate.year}",
                             ),
-                            child: Text(
-                              state.families[widget.index].userNames,
-                              style: TextStyle(
-                                fontSize: 25,
-                              ),
+                            LittleButton(
+                              label:
+                                  "Godzina: ${appointmentTime.hour}:${appointmentTime.minute}",
+                              onTap: () {
+                                pickTime();
+                              },
                             ),
-                          );
-                        },
-                        converter: (store) => store.state),
-                    CalendarDashboard(
-                      index: widget.index,
-                    ),
-                    ColoredCard(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Ustal wizytę",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 16),
+                            LittleButton(
+                              onTap: () {
+                                addAppointment();
+                              },
+                              label: "Dodaj",
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                LittleButton(
-                                  onTap: () {
-                                    pickDate();
-                                  },
-                                  label:
-                                      "Data: ${appointmentDate.day}/${appointmentDate.month}/${appointmentDate.year}",
-                                ),
-                                LittleButton(
-                                  label:
-                                      "Godzina: ${appointmentTime.hour}:${appointmentTime.minute}",
-                                  onTap: () {
-                                    pickTime();
-                                  },
-                                ),
-                                LittleButton(
-                                  onTap: () {
-                                    addAppointment();
-                                  },
-                                  label: "Dodaj",
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
