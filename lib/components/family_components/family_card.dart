@@ -31,20 +31,9 @@ class FamilyCard extends StatelessWidget {
                         fontSize: 19,
                       ),
                     ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.pending_actions_rounded,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                        Text(
-                          " - $appointment",
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
+                    Text(
+                      "Kliknij by brzejść do szczegułów",
+                      style: TextStyle(color: Colors.white),
                     ),
                   ],
                 )

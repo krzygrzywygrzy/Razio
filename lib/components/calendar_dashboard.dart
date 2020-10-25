@@ -4,7 +4,6 @@ import 'package:mental_health/components/cards/calendar_card.dart';
 import 'package:mental_health/components/cards/colored_card.dart';
 import 'package:mental_health/components/interaction_components/little_button.dart';
 import 'package:mental_health/models/primaryData.dart';
-import 'package:mental_health/services/allert.dart';
 import 'package:mental_health/services/calendar_services.dart';
 import 'package:mental_health/services/visits_services.dart';
 import 'package:mental_health/views/calendar_day_view.dart';
@@ -13,6 +12,7 @@ import '../const.dart';
 import 'package:mental_health/main.dart';
 import "package:mental_health/components/interaction_components/bottom_sheet.dart";
 import 'avatar.dart';
+import 'package:indexed_list_view/indexed_list_view.dart';
 
 class CalendarDashboard extends StatefulWidget {
   CalendarDashboard({this.index});
@@ -24,6 +24,8 @@ class CalendarDashboard extends StatefulWidget {
 
 class _CalendarDashboardState extends State<CalendarDashboard>
     with ScreenLoader<CalendarDashboard> {
+  IndexedScrollController controller = IndexedScrollController();
+
   int month = 0;
   int days;
   int year;
@@ -32,6 +34,7 @@ class _CalendarDashboardState extends State<CalendarDashboard>
     month = DateTime.now().month - 1;
     year = DateTime.now().year;
     days = dayInMonth(month);
+    controller.jumpToIndex(DateTime.now().day - 1);
     super.initState();
   }
 
@@ -219,9 +222,9 @@ class _CalendarDashboardState extends State<CalendarDashboard>
   //TODO: show callendar even when user is not connected to psyhologist
   Widget showCallendar() {
     if (store.state.families.length != 0) {
-      return ListView.builder(
+      return IndexedListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: days,
+        controller: controller,
         itemBuilder: (BuildContext context, int index) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
