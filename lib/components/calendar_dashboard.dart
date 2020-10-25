@@ -227,6 +227,9 @@ class _CalendarDashboardState extends State<CalendarDashboard>
     if (store.state.families.length != 0) {
       return IndexedListView.builder(
         scrollDirection: Axis.horizontal,
+        addRepaintBoundaries: false,
+        maxItemCount: days - 1,
+        minItemCount: 0,
         controller: controller,
         itemBuilder: (BuildContext context, int index) {
           return Padding(
